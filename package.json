@@ -1,0 +1,21 @@
+{
+  "name": "GloboAuth",
+  "version": "1.0.0-SNAPSHOT",
+  "description": "Globo Auth",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "build": "webpack --bail"
+  },
+  "keywords": [
+    "graylog"
+  ],
+  "author": "Matheus Da Luz Costa <matheus.costa@corp.globo.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "graylog-web-plugin": "file:../graylog2-server/graylog2-web-interface/packages/graylog-web-plugin"
+  }
+}
