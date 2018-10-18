@@ -23,13 +23,6 @@
         </developer>
     </developers>
 
-    <scm>
-        <connection>scm:git:git@github.com:none.git</connection>
-        <developerConnection>scm:git:git@github.com:none.git</developerConnection>
-        <url>https://github.com/none</url>
-        <tag>HEAD</tag>
-    </scm>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>

@@ -16,7 +16,7 @@ import javax.ws.rs.core.MultivaluedMap;
 public class GloboAuthRealm extends AuthenticatingRealm {
     private static final Logger LOG = LoggerFactory.getLogger(GloboAuthRealm.class);
 
-    public static final String NAME = "Globo Auth";
+    public static final String NAME = "globo-oauth";
 
     private final UserService userService = null;
     private final ClusterConfigService clusterConfigService = null;

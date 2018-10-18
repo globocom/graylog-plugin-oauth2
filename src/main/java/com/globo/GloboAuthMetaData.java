@@ -31,7 +31,7 @@ public class GloboAuthMetaData implements PluginMetaData {
 
     @Override
     public URI getURL() {
-        return URI.create("https://github.com/none");
+        return URI.create("https://gitlab.globoi.com/time-evolucao-infra/graylog-plugin-globo-auth");
     }
 
     @Override
