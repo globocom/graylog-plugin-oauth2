@@ -1,7 +1,8 @@
+import webpackEntry from 'webpack-entry';
+
 import packageJson from '../../package.json';
 import { PluginManifest, PluginStore } from 'graylog-web-plugin/plugin';
-
-import GloboAuthConfiguration from 'pages/GloboAuthConfiguration';
+import GloboAuthConfiguration from 'GloboAuthConfiguration';
 
 PluginStore.register(new PluginManifest(packageJson, {
   authenticatorConfigurations: [

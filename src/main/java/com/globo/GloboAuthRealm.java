@@ -11,19 +11,28 @@ import org.graylog2.users.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
+import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.annotation.Nullable;
 
 public class GloboAuthRealm extends AuthenticatingRealm {
     private static final Logger LOG = LoggerFactory.getLogger(GloboAuthRealm.class);
 
     public static final String NAME = "globo-oauth";
 
-    private final UserService userService = null;
-    private final ClusterConfigService clusterConfigService = null;
-    private final RoleService roleService = null;
+    private final UserService userService;
+    private final ClusterConfigService clusterConfigService;
+    private final RoleService roleService;
+    private final GloboAuth globoAuth = new GloboAuth();
 
-    public GloboAuthRealm() {
-
+    @Inject
+    public GloboAuthRealm(UserService userService,
+                          ClusterConfigService clusterConfigService,
+                          RoleService roleService) {
+        this.userService = userService;
+        this.clusterConfigService = clusterConfigService;
+        this.roleService = roleService;
     }
 
     @Override
@@ -31,6 +40,15 @@ public class GloboAuthRealm extends AuthenticatingRealm {
         HttpHeadersToken headersToken = (HttpHeadersToken) authenticationToken;
         final MultivaluedMap<String, String> requestHeaders = headersToken.getHeaders();
 
+        final String referer = headerValue(requestHeaders, "referer");
+
+        String code = globoAuth.getCodeFromReferer(referer);
+
         return null;
+    }
+
+    private String headerValue(MultivaluedMap<String, String> headers, @Nullable String headerName) {
+
+        return headers.getFirst(headerName.toLowerCase());
     }
 }

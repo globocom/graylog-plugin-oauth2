@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_GloboAuthConfig.Builder.class)
 @JsonAutoDetect
-public abstract class GloboAuthConfig {
+public abstract  class GloboAuthConfig {
 
     public static Builder builder() {
         return new AutoValue_GloboAuthConfig.Builder();
@@ -21,45 +21,39 @@ public abstract class GloboAuthConfig {
 
     public static GloboAuthConfig defaultConfig() {
         return builder()
-                .usernameHeader("Remote-User")
-                .autoCreateUser(true)
+                .name("Graylog")
+                .clientId("")
+                .clientSecret("")
+                .autoCreateUser(false)
                 .build();
     }
 
-    @JsonProperty("username_header")
-    public abstract String usernameHeader();
+    @JsonProperty("name")
+    public abstract String name();
 
-    @JsonProperty("fullname_header")
+    @JsonProperty("client_id")
     @Nullable
-    public abstract String fullnameHeader();
+    public abstract String clientId();
 
-    @JsonProperty("email_header")
+    @JsonProperty("client_secret")
     @Nullable
-    public abstract String emailHeader();
-
-    @JsonProperty("default_group")
-    @Nullable
-    public abstract String defaultGroup();
+    public abstract String clientSecret();
 
     @JsonProperty("auto_create_user")
     public abstract boolean autoCreateUser();
-
 
     @AutoValue.Builder
     public static abstract class Builder {
         abstract GloboAuthConfig build();
 
-        @JsonProperty("username_header")
-        public abstract Builder usernameHeader(String usernameHeader);
+        @JsonProperty("name")
+        public abstract Builder name(String usernameHeader);
 
-        @JsonProperty("fullname_header")
-        public abstract Builder fullnameHeader(@Nullable String fullnameHeader);
+        @JsonProperty("client_id")
+        public abstract Builder clientId(@Nullable String fullnameHeader);
 
-        @JsonProperty("email_header")
-        public abstract Builder emailHeader(@Nullable String emailHeader);
-
-        @JsonProperty("default_group")
-        public abstract Builder defaultGroup(@Nullable String defaultGroup);
+        @JsonProperty("client_secret")
+        public abstract Builder clientSecret(@Nullable String emailHeader);
 
         @JsonProperty("auto_create_user")
         public abstract Builder autoCreateUser(boolean autoCreateUser);
