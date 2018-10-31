@@ -76,6 +76,12 @@ const GloboAuthConfiguration = React.createClass({
                               onChange={this._bindValue} required/>
                      </fieldset>
                      <fieldset>
+                           <Input type="text" id="url_backstage" name="url_backstage" labelClassName="col-sm-3"
+                               wrapperClassName="col-sm-9" placeholder="Url Backstage" label="Url Backstage"
+                               value={this.state.config.url_backstage} help="Url Backstage"
+                               onChange={this._bindValue} required/>
+                     </fieldset>
+                     <fieldset>
                          <legend className="col-sm-12">User creation</legend>
                          <Input type="checkbox" label="Automatically create users"
                                 help="Enable this if Graylog should automatically create a user account for externally authenticated users. If disabled, an administrator needs to manually create a user account."

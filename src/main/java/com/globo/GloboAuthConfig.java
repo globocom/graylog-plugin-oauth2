@@ -24,6 +24,7 @@ public abstract  class GloboAuthConfig {
                 .name("Graylog")
                 .clientId("")
                 .clientSecret("")
+                .urlBackstage("")
                 .autoCreateUser(false)
                 .build();
     }
@@ -39,6 +40,10 @@ public abstract  class GloboAuthConfig {
     @Nullable
     public abstract String clientSecret();
 
+    @JsonProperty("url_backstage")
+    @Nullable
+    public abstract String urlBackstage();
+
     @JsonProperty("auto_create_user")
     public abstract boolean autoCreateUser();
 
@@ -47,13 +52,16 @@ public abstract  class GloboAuthConfig {
         abstract GloboAuthConfig build();
 
         @JsonProperty("name")
-        public abstract Builder name(String usernameHeader);
+        public abstract Builder name(String name);
 
         @JsonProperty("client_id")
-        public abstract Builder clientId(@Nullable String fullnameHeader);
+        public abstract Builder clientId(@Nullable String clientId);
 
         @JsonProperty("client_secret")
-        public abstract Builder clientSecret(@Nullable String emailHeader);
+        public abstract Builder clientSecret(@Nullable String clientSecret);
+
+        @JsonProperty("url_backstage")
+        public abstract Builder urlBackstage(@Nullable String urlBackstage);
 
         @JsonProperty("auto_create_user")
         public abstract Builder autoCreateUser(boolean autoCreateUser);
