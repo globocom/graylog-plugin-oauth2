@@ -55,7 +55,7 @@ public class GloboAuthRealm extends AuthenticatingRealm {
         final String referer = headerValue(requestHeaders, "referer");
 
         String code = globoAuth.getCodeFromReferer(referer);
-        globoAuth.getAuthorizationCode(code, config.clientId(), config.clientSecret(), config.urlBackstage());
+        globoAuth.getAuthorization(code, config.clientId(), config.clientSecret(), config.urlBackstage());
 
         return null;
     }
