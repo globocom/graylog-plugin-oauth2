@@ -25,6 +25,7 @@ dramatically by making use of hot reloading. To do this, do the following:
 * `cd graylog2-server/graylog2-web-interface`
 * `ln -s $YOURPLUGIN plugin/`
 * `npm install && npm start`
+* `importar o module e o jar no pom do graylog-project`
 
 Usage
 -----

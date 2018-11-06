@@ -1,5 +1,7 @@
 package com.globo;
 
+import com.globo.models.AcessToken;
+import com.globo.models.User;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -55,8 +57,9 @@ public class GloboAuthRealm extends AuthenticatingRealm {
         final String referer = headerValue(requestHeaders, "referer");
 
         String code = globoAuth.getCodeFromReferer(referer);
-        AcessToken acessToken = globoAuth.getAuthorization(code, config.clientId(), config.clientSecret(), config.urlBackstage());
-
+        AcessToken acessToken = globoAuth.getAuthorization(code, config.clientId(), config.clientSecret(),
+                config.urlBackstage());
+        User user = globoAuth.getUser(config.urlBackstage(), acessToken);
         return null;
     }
 

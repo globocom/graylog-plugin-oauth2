@@ -1,4 +1,4 @@
-package com.globo;
+package com.globo.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

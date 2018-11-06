@@ -1,11 +1,15 @@
 package com.globo;
 
+import com.globo.models.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.globo.models.AcessToken;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.HttpClientUtils;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
@@ -21,6 +25,10 @@ import java.util.List;
 
 public class GloboAuth {
     private static final Logger LOG = LoggerFactory.getLogger(GloboAuth.class);
+    ObjectMapper mapper = new ObjectMapper();
+    AcessToken acessToken = new AcessToken();
+    User user = new User();
+    HttpClient httpclient = HttpClients.createDefault();
 
     public String getCodeFromReferer(String referer) {
         String code = new String();
@@ -35,26 +43,20 @@ public class GloboAuth {
     }
 
     public AcessToken getAuthorization(String code, String clientId, String clientSecret, String url) {
-        HttpClient httpclient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost(url + "token");
+        HttpPost httpPost = new HttpPost(url + "token");
+        HttpResponse response = null;
 
-        String authorizationString =   "Basic " + Base64.getEncoder().encodeToString(
-                (clientId + ":" + clientSecret).getBytes());
-
-        httppost.setHeader("Authorization", authorizationString);
+        httpPost.setHeader("Authorization", getAuthorizationString(clientId, clientSecret));
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
         params.add(new BasicNameValuePair("redirect_uri", "http://localhost:8080/"));
         params.add(new BasicNameValuePair("grant_type", "authorization_code"));
 
-        ObjectMapper mapper = new ObjectMapper();
-        AcessToken acessToken = new AcessToken();
-
         try {
             params.add(new BasicNameValuePair("code",  URLDecoder.decode(code, "UTF-8")));
-            httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-            HttpResponse response = httpclient.execute(httppost);
+            httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+            response = httpclient.execute(httpPost);
 
             BufferedReader bufReader = new BufferedReader(new InputStreamReader(
                     response.getEntity().getContent()));
@@ -72,9 +74,49 @@ public class GloboAuth {
             bufReader.close();
         } catch (IOException e) {
             LOG.error(e.toString());
+        } finally {
+            HttpClientUtils.closeQuietly(response);
         }
 
         return acessToken;
+    }
+
+    public User getUser(String url, AcessToken acessToken) {
+        HttpGet httpGet = new  HttpGet(url + "user");
+        HttpResponse response = null;
+
+        httpGet.setHeader("Authorization", "Bearer " + acessToken.getAcessToken());
+
+        try {
+            response = httpclient.execute(httpGet);
+
+            BufferedReader bufReader = new BufferedReader(new InputStreamReader(
+                    response.getEntity().getContent()));
+
+            StringBuilder builder = new StringBuilder();
+
+            String line;
+
+            while ((line = bufReader.readLine()) != null) {
+                builder.append(line);
+            }
+
+            user = mapper.readValue(builder.toString(), User.class);
+            System.out.println(user);
+            bufReader.close();
+        } catch (IOException e) {
+            LOG.error(e.toString());
+        } finally {
+            HttpClientUtils.closeQuietly(response);
+        }
+
+
+        return user;
+    }
+
+    public String getAuthorizationString(String clientId, String clientSecret) {
+        return  "Basic " + Base64.getEncoder().encodeToString(
+                (clientId + ":" + clientSecret).getBytes());
     }
 }
 
