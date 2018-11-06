@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -40,17 +41,19 @@ public class GloboAuth {
         String authorizationString =   "Basic " + Base64.getEncoder().encodeToString(
                 (clientId + ":" + clientSecret).getBytes());
 
-        httppost.addHeader("Authorization", authorizationString);
-        httppost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+        httppost.setHeader("Authorization", authorizationString);
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("grant_type", "client_credentials"));
+
+        params.add(new BasicNameValuePair("redirect_uri", "http://localhost:8080/"));
+        params.add(new BasicNameValuePair("grant_type", "authorization_code"));
 
         ObjectMapper mapper = new ObjectMapper();
         AcessToken acessToken = new AcessToken();
 
         try {
-            httppost.setEntity(new UrlEncodedFormEntity(params));
+            params.add(new BasicNameValuePair("code",  URLDecoder.decode(code, "UTF-8")));
+            httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
             HttpResponse response = httpclient.execute(httppost);
 
             BufferedReader bufReader = new BufferedReader(new InputStreamReader(
@@ -62,10 +65,10 @@ public class GloboAuth {
 
             while ((line = bufReader.readLine()) != null) {
                 builder.append(line);
-                builder.append(System.lineSeparator());
             }
 
             acessToken = mapper.readValue(builder.toString(), AcessToken.class);
+            System.out.println(acessToken);
             bufReader.close();
         } catch (IOException e) {
             LOG.error(e.toString());

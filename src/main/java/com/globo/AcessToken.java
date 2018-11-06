@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AcessToken {
 
+    public AcessToken(){
+
+    }
+
     @JsonProperty("access_token")
     private String acessToken;
 
@@ -13,9 +17,8 @@ public class AcessToken {
     @JsonProperty("expires_in")
     private int expiresIn;
 
-    public AcessToken(){
-
-    }
+    @JsonProperty("refresh_token")
+    private String refreshToken;
 
     public String getAcessToken() {
         return acessToken;
@@ -41,13 +44,21 @@ public class AcessToken {
         this.expiresIn = expiresIn;
     }
 
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
     @Override
     public String toString() {
         return "AcessToken{" +
                 "acessToken='" + acessToken + '\'' +
                 ", tokenType='" + tokenType + '\'' +
                 ", expiresIn=" + expiresIn +
+                ", refreshToken='" + refreshToken + '\'' +
                 '}';
     }
-
 }
