@@ -12,7 +12,7 @@
   "keywords": [
     "graylog"
   ],
-  "author": "Matheus Da Luz Costa <matheus.costa@corp.globo.com>, Luiz Henrique Machado <luiz.machado@corp.globo.com>",
+  "author": "Matheus Da Luz Costa <matheus.costa@corp.globo.com>, Luiz Henrique Machado <luiz.machado@corp.globo.com, Igor Cavalcante <igor.cavalcante@corp.globo.com",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {

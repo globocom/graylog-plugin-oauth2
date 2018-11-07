@@ -25,6 +25,10 @@
             <name>Luiz Henrique Machado</name>
             <email>luiz.machado@corp.globo.com</email>
         </developer>
+        <developer>
+            <name>Igor Cavalcante</name>
+            <email>igor.calvacante@corp.globo.com</email>
+        </developer>
     </developers>
 
     <properties>
