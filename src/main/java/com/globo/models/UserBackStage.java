@@ -3,10 +3,11 @@ package com.globo.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Set;
 
-public class User {
+public class UserBackStage {
 
-    public User(){
+    public UserBackStage(){
 
     }
 
@@ -26,10 +27,10 @@ public class User {
     private String picture;
 
     @JsonProperty("role_ids")
-    private List<String> roleIds;
+    private Set<String> roleIds;
 
     @JsonProperty("groups")
-    private List<String> groups;
+    private Set<String> groups;
 
     public String getPicture() {
         return picture;
@@ -39,19 +40,19 @@ public class User {
         this.picture = picture;
     }
 
-    public List<String> getRoleIds() {
+    public Set<String> getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(List<String> roleIds) {
+    public void setRoleIds(Set<String> roleIds) {
         this.roleIds = roleIds;
     }
 
-    public List<String> getGroups() {
+    public Set<String> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<String> groups) {
+    public void setGroups(Set<String> groups) {
         this.groups = groups;
     }
 
@@ -89,7 +90,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserBackStage{" +
                 "name='" + name + '\'' +
                 ", surName='" + surName + '\'' +
                 ", userName='" + userName + '\'' +

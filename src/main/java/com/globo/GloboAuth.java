@@ -1,8 +1,8 @@
 package com.globo;
 
-import com.globo.models.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.globo.models.AcessToken;
+import com.globo.models.UserBackStage;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -27,7 +27,7 @@ public class GloboAuth {
     private static final Logger LOG = LoggerFactory.getLogger(GloboAuth.class);
     ObjectMapper mapper = new ObjectMapper();
     AcessToken acessToken = new AcessToken();
-    User user = new User();
+    UserBackStage user = new  UserBackStage();
     HttpClient httpclient = HttpClients.createDefault();
 
     public String getCodeFromReferer(String referer) {
@@ -70,7 +70,6 @@ public class GloboAuth {
             }
 
             acessToken = mapper.readValue(builder.toString(), AcessToken.class);
-            System.out.println(acessToken);
             bufReader.close();
         } catch (IOException e) {
             LOG.error(e.toString());
@@ -81,7 +80,7 @@ public class GloboAuth {
         return acessToken;
     }
 
-    public User getUser(String url, AcessToken acessToken) {
+    public UserBackStage getUser(String url, AcessToken acessToken) {
         HttpGet httpGet = new  HttpGet(url + "user");
         HttpResponse response = null;
 
@@ -101,8 +100,7 @@ public class GloboAuth {
                 builder.append(line);
             }
 
-            user = mapper.readValue(builder.toString(), User.class);
-            System.out.println(user);
+            user = mapper.readValue(builder.toString(),  UserBackStage.class);
             bufReader.close();
         } catch (IOException e) {
             LOG.error(e.toString());
