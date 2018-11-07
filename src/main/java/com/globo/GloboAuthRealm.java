@@ -101,11 +101,11 @@ public class GloboAuthRealm extends AuthenticatingRealm {
 
                     if (userBackStage.getRoleIds().isEmpty()){
                         try {
-                            Role role = roleService.loadAllLowercaseNameMap().get("Reader");
+                            Role role = roleService.loadAllLowercaseNameMap().get(userBackStage.getRoleIds());
                             if (role != null) {
                                 user.setRoleIds(Collections.singleton(role.getId()));
                             } else {
-                                LOG.warn("Could not find group named {}, giving user reader role instead", "\"Reader");
+                                LOG.warn("Could not find role ids");
                                 user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
                             }
                         } catch (NotFoundException e) {
@@ -124,8 +124,6 @@ public class GloboAuthRealm extends AuthenticatingRealm {
                     }
                 }
             }
-
-            LOG.info("Logged with user {}", user.getName());
 
             ShiroSecurityContext.requestSessionCreation(true);
             return new SimpleAccount(user.getName(), null, NAME);
