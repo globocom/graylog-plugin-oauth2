@@ -18,14 +18,13 @@ Restart `graylog-server` and you are done.
 Development
 -----------
 
-You can improve your development experience for the web interface part of your plugin
-dramatically by making use of hot reloading. To do this, do the following:
-
-* `git clone https://github.com/Graylog2/graylog2-server.git`
-* `cd graylog2-server/graylog2-web-interface`
-* `ln -s $YOURPLUGIN plugin/`
-* `npm install && npm start`
 * `importar o module e o jar no pom do graylog-project`
+
+*  <dependency>
+            <groupId>com.globo</groupId>
+            <artifactId>graylog-plugin-globo-auth</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
 
 Usage
 -----
