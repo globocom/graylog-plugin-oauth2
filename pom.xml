@@ -21,6 +21,10 @@
             <name>Matheus Da Luz Costa</name>
             <email>matheus.costa@corp.globo.com</email>
         </developer>
+        <developer>
+            <name>Luiz Henrique Machado</name>
+            <email>luiz.machado@corp.globo.com</email>
+        </developer>
     </developers>
 
     <properties>
@@ -55,6 +59,24 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.6</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
