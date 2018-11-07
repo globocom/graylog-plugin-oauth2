@@ -3,7 +3,7 @@
 
 __Use this paragraph to enter a description of your plugin.__
 
-**Required Graylog version:** 2.3 and later
+**Required Graylog version:** 2.4 and later
 
 Installation
 ------------
