@@ -20,12 +20,11 @@ Development
 
 * `importar o module e o jar no pom do graylog-project`
 
-
-    <dependency>
+        <dependency>
             <groupId>com.globo</groupId>
             <artifactId>graylog-plugin-globo-auth</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-    </dependency>
+         </dependency>
 
 Usage
 -----
