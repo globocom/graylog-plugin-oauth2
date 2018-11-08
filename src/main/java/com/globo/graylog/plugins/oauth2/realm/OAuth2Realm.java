@@ -27,6 +27,7 @@ import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.annotation.Nullable;
 import java.util.Collections;
+import java.util.Set;
 
 public class OAuth2Realm extends AuthenticatingRealm {
     private static final Logger LOG = LoggerFactory.getLogger(OAuth2Realm.class);
@@ -95,22 +96,23 @@ public class OAuth2Realm extends AuthenticatingRealm {
                     user.setFullName(userBackStage.getEmail());
                     user.setEmail(userBackStage.getEmail());
 
-                    if (!userBackStage.getRoleIds().isEmpty()){
-                        try {
-                            Role role = roleService.loadAllLowercaseNameMap().get(userBackStage.getRoleIds());
-                            if (role != null) {
-                                user.setRoleIds(Collections.singleton(role.getId()));
-                            } else {
-                                LOG.warn("Could not find role ids");
-                                user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
-                            }
-                        } catch (NotFoundException e) {
-                            LOG.info("Unable to retrieve roles, giving user reader role");
-                            user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
-                        }
-                    } else {
-                        user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
-                    }
+                    //TODO: Review this code.
+//                    if (!userBackStage.getRoleIds().isEmpty()){
+//                        try {
+//                            Role role = roleService.loadAllLowercaseNameMap().get(userBackStage.getRoleIds());
+//                            if (role != null) {
+//                                user.setRoleIds(Collections.singleton(role.getId()));
+//                            } else {
+//                                LOG.warn("Could not find role ids");
+//                                user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
+//                            }
+//                        } catch (NotFoundException e) {
+//                            LOG.info("Unable to retrieve roles, giving user reader role");
+//                            user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
+//                        }
+//                    } else {
+//                        user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
+//                    }
 
                     try {
                         userService.save(user);
