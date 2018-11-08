@@ -12,7 +12,7 @@ import java.util.Set;
  * Implement the PluginMetaData interface here.
  */
 public class GloboAuthMetaData implements PluginMetaData {
-    private static final String PLUGIN_PROPERTIES = "com.globo.graylog-plugin-globo-auth/graylog-plugin.properties";
+    private static final String PLUGIN_PROPERTIES = "com.globo.graylog-plugin-oauth2/graylog-plugin.properties";
 
     @Override
     public String getUniqueId() {
@@ -31,7 +31,7 @@ public class GloboAuthMetaData implements PluginMetaData {
 
     @Override
     public URI getURL() {
-        return URI.create("https://gitlab.globoi.com/time-evolucao-infra/graylog-plugin-globo-auth");
+        return URI.create("https://gitlab.globoi.com/time-evolucao-infra/com.globo.graylog-plugin-oauth2");
     }
 
     @Override
