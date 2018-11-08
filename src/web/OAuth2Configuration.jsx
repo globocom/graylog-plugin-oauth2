@@ -4,22 +4,22 @@ import { Row, Col, Button, Alert } from "react-bootstrap";
 import { Input } from 'components/bootstrap';
 
 import { PageHeader, Spinner } from "components/common";
-import GloboAuthActions from "GloboAuthActions";
-import GloboAuthStore from "GloboAuthStore";
+import OAuth2Actions from "OAuth2Actions";
+import OAuth2Store from "OAuth2Store";
 
 import StoreProvider from 'injection/StoreProvider';
 const RolesStore = StoreProvider.getStore('Roles')
 
 import ObjectUtils from 'util/ObjectUtils';
 
-const GloboAuthConfiguration = React.createClass({
+const OAuth2Configuration = React.createClass({
 
    mixins: [
-      Reflux.connect(GloboAuthStore),
+      Reflux.connect(OAuth2Store),
     ],
 
     componentDidMount() {
-      GloboAuthActions.config();
+      OAuth2Actions.config();
       RolesStore.loadRoles().done(roles => {
         this.setState({ roles: roles.map(role => role.name) });
       });
@@ -27,7 +27,7 @@ const GloboAuthConfiguration = React.createClass({
 
    _saveSettings(ev) {
         ev.preventDefault();
-        GloboAuthActions.saveConfig(this.state.config);
+        OAuth2Actions.saveConfig(this.state.config);
     },
 
    _setSetting(attribute, value) {
@@ -106,8 +106,8 @@ const GloboAuthConfiguration = React.createClass({
 
     return (
       <div>
-        <PageHeader title="Globo Oauth" subpage>
-          <span>Configuration page for the Oauth.</span>
+        <PageHeader title="Oauth2" subpage>
+          <span>Configuration page for the Oauth2.</span>
         </PageHeader>
         {content}
       </div>
@@ -116,4 +116,4 @@ const GloboAuthConfiguration = React.createClass({
 
 });
 
-export default GloboAuthConfiguration;
+export default OAuth2Configuration;

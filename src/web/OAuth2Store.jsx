@@ -1,15 +1,15 @@
 import Reflux from 'reflux';
 
-import GloboAuthActions from 'GloboAuthActions';
+import OAuth2Actions from 'OAuth2Actions';
 
 import UserNotification from 'util/UserNotification';
 import URLUtils from 'util/URLUtils';
 import fetch from 'logic/rest/FetchProvider';
 
-const urlPrefix = '/plugins/com.globo.main';
+const urlPrefix = '/plugins/com.globo.graylog.plugins.oauth2';
 
-const GloboAuthStore = Reflux.createStore({
-  listenables: [GloboAuthActions],
+const OAuth2Store = Reflux.createStore({
+  listenables: [OAuth2Actions],
 
   getInitialState() {
     return {
@@ -41,9 +41,9 @@ const GloboAuthStore = Reflux.createStore({
 
     promise.then((response) => {
       this.trigger({ config: response });
-    }, this._errorHandler('Fetching config failed', 'Could not retrieve Globo Oauth'));
+    }, this._errorHandler('Fetching config failed', 'Could not retrieve Oauth2'));
 
-    GloboAuthActions.config.promise(promise);
+    OAuth2Actions.config.promise(promise);
   },
 
   saveConfig(config) {
@@ -51,11 +51,11 @@ const GloboAuthStore = Reflux.createStore({
 
     promise.then((response) => {
       this.trigger({ config: response });
-      UserNotification.success('Globo Oauth configuration was updated successfully');
-    }, this._errorHandler('Updating Globo Oauth config failed', 'Unable to update Oauth authenticator config'));
+      UserNotification.success('Oauth2 configuration was updated successfully');
+    }, this._errorHandler('Updating Oauth2 config failed', 'Unable to update Oauth2 authenticator config'));
 
-     GloboAuthActions.saveConfig.promise(promise);
+     OAuth2Actions.saveConfig.promise(promise);
   },
 });
 
-export default GloboAuthStore;
+export default OAuth2Store;
