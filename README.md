@@ -1,5 +1,6 @@
 # OAuth2 Plugin for Graylog
 
+[![Build Status](https://travis-ci.org/globocom/graylog-plugin-oauth2.svg?branch=master)](https://travis-ci.org/globocom/graylog-plugin-oauth2)
 
 This plugins adds Oauth2 capabilities to Graylog. It supports automatic login and user account creation based on Oauth 2.0.
 
