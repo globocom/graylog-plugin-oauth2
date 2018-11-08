@@ -1,8 +1,8 @@
-package com.globo;
+package com.globo.graylog.plugins.oauth2.realm;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.globo.models.AcessToken;
-import com.globo.models.UserBackStage;
+import com.globo.graylog.plugins.oauth2.models.AcessToken;
+import com.globo.graylog.plugins.oauth2.models.UserBackStage;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-public class GloboAuth {
-    private static final Logger LOG = LoggerFactory.getLogger(GloboAuth.class);
+public class OAuth2 {
+    private static final Logger LOG = LoggerFactory.getLogger(OAuth2.class);
     ObjectMapper mapper = new ObjectMapper();
     AcessToken acessToken = new AcessToken();
     UserBackStage user = new  UserBackStage();

@@ -1,11 +1,11 @@
-package com.globo.audit;
+package com.globo.graylog.plugins.oauth2.audit;
 
 import com.google.common.collect.ImmutableSet;
 import org.graylog2.audit.PluginAuditEventTypes;
 
 import java.util.Set;
 
-public class GloboAuthAuditEventTypes implements PluginAuditEventTypes {
+public class OAuth2AuditEventTypes implements PluginAuditEventTypes {
     private static final String NAMESPACE = "oauth_auth:";
 
     public static final String CONFIG_UPDATE = NAMESPACE + "oauth:update";

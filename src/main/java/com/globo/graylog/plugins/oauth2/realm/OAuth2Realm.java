@@ -1,7 +1,8 @@
-package com.globo;
+package com.globo.graylog.plugins.oauth2.realm;
 
-import com.globo.models.AcessToken;
-import com.globo.models.UserBackStage;
+import com.globo.graylog.plugins.oauth2.models.AcessToken;
+import com.globo.graylog.plugins.oauth2.models.UserBackStage;
+import com.globo.graylog.plugins.oauth2.rest.OAuth2Config;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -26,10 +27,9 @@ import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.annotation.Nullable;
 import java.util.Collections;
-import java.util.Optional;
 
-public class GloboAuthRealm extends AuthenticatingRealm {
-    private static final Logger LOG = LoggerFactory.getLogger(GloboAuthRealm.class);
+public class OAuth2Realm extends AuthenticatingRealm {
+    private static final Logger LOG = LoggerFactory.getLogger(OAuth2Realm.class);
 
     public static final String NAME = "globo-oauth";
 
@@ -37,19 +37,19 @@ public class GloboAuthRealm extends AuthenticatingRealm {
     private final UserService userService;
     private final ClusterConfigService clusterConfigService;
     private final RoleService roleService;
-    private final GloboAuth globoAuth;
+    private final OAuth2 oAuth2;
 
     @Inject
-    public GloboAuthRealm(UserService userService,
-                          ClusterConfigService clusterConfigService,
-                          RoleService roleService,
-                          LdapUserAuthenticator ldapAuthenticator,
-                          GloboAuth globoAuth) {
+    public OAuth2Realm(UserService userService,
+                       ClusterConfigService clusterConfigService,
+                       RoleService roleService,
+                       LdapUserAuthenticator ldapAuthenticator,
+                       OAuth2 oAuth2) {
         this.userService = userService;
         this.clusterConfigService = clusterConfigService;
         this.roleService = roleService;
         this.ldapAuthenticator = ldapAuthenticator;
-        this.globoAuth = globoAuth;
+        this.oAuth2 = oAuth2;
         setAuthenticationTokenClass(HttpHeadersToken.class);
         setCredentialsMatcher(new AllowAllCredentialsMatcher());
         setCachingEnabled(false);
@@ -62,18 +62,18 @@ public class GloboAuthRealm extends AuthenticatingRealm {
         HttpHeadersToken headersToken = (HttpHeadersToken) authenticationToken;
         final MultivaluedMap<String, String> requestHeaders = headersToken.getHeaders();
 
-        final GloboAuthConfig config = clusterConfigService.getOrDefault(
-                GloboAuthConfig.class,
-                GloboAuthConfig.defaultConfig());
+        final OAuth2Config config = clusterConfigService.getOrDefault(
+                OAuth2Config.class,
+                OAuth2Config.defaultConfig());
 
         final String referer = headerValue(requestHeaders, "referer");
 
-        String code = globoAuth.getCodeFromReferer(referer);
+        String code = oAuth2.getCodeFromReferer(referer);
 
-        AcessToken acessToken = globoAuth.getAuthorization(code, config.clientId(), config.clientSecret(),
+        AcessToken acessToken = oAuth2.getAuthorization(code, config.clientId(), config.clientSecret(),
                 config.urlBackstage());
 
-        UserBackStage userBackStage = globoAuth.getUser(config.urlBackstage(), acessToken);
+        UserBackStage userBackStage = oAuth2.getUser(config.urlBackstage(), acessToken);
 
         final String username = userBackStage.getUserName();
         User user = null;

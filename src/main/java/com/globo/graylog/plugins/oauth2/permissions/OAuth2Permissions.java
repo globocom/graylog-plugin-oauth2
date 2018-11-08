@@ -1,4 +1,4 @@
-package com.globo.audit;
+package com.globo.graylog.plugins.oauth2.permissions;
 
 import com.google.common.collect.ImmutableSet;
 import org.graylog2.plugin.security.Permission;
@@ -9,7 +9,7 @@ import java.util.Set;
 
 import static org.graylog2.plugin.security.Permission.create;
 
-public class GloboAuthPermissions implements PluginPermissions {
+public class OAuth2Permissions implements PluginPermissions {
     public static final String CONFIG_READ = "oauthconfig:read";
     public static final String CONFIG_UPDATE = "oauthconfig:edit";
 

@@ -1,4 +1,4 @@
-package com.globo;
+package com.globo.graylog.plugins.oauth2.rest;
 
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -9,17 +9,17 @@ import com.google.auto.value.AutoValue;
 import javax.annotation.Nullable;
 
 @AutoValue
-@JsonDeserialize(builder = AutoValue_GloboAuthConfig.Builder.class)
+@JsonDeserialize(builder = AutoValue_OAuth2Config.Builder.class)
 @JsonAutoDetect
-public abstract  class GloboAuthConfig {
+public abstract  class OAuth2Config {
 
     public static Builder builder() {
-        return new AutoValue_GloboAuthConfig.Builder();
+        return new AutoValue_OAuth2Config.Builder();
     }
 
     public abstract Builder toBuilder();
 
-    public static GloboAuthConfig defaultConfig() {
+    public static OAuth2Config defaultConfig() {
         return builder()
                 .name("Graylog")
                 .clientId("")
@@ -49,7 +49,7 @@ public abstract  class GloboAuthConfig {
 
     @AutoValue.Builder
     public static abstract class Builder {
-        abstract GloboAuthConfig build();
+        abstract OAuth2Config build();
 
         @JsonProperty("name")
         public abstract Builder name(String name);
