@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.globo</groupId>
     <artifactId>graylog-plugin-oauth2</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -28,6 +28,10 @@
         <developer>
             <name>Igor Cavalcante</name>
             <email>igor.calvacante@corp.globo.com</email>
+        </developer>
+        <developer>
+            <name>Douglas Costa</name>
+            <email>douglas.costa@corp.globo.com</email>
         </developer>
     </developers>
 
