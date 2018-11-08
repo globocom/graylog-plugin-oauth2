@@ -8,8 +8,22 @@ addons:
     packages:
     - rpm
 install:
-- git clone --branch 2.4 --depth=1 --no-single-branch https://github.com/Graylog2/graylog2-server ../graylog2-server
-- (cd ../graylog2-server && mvn -DskipTests=true compile -B -V)
-- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dskip.web.build=true -B -V
+- git clone --branch 2.4 --depth=1 --no-single-branch https://github.com/Graylog2/graylog2-server
+  ../graylog2-server
+- "(cd ../graylog2-server && mvn -DskipTests=true compile -B -V)"
+- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dskip.web.build=true -B
+  -V
 script:
 - mvn package -B
+deploy:
+  provider: releases
+  api_key:
+    secure: X2MlS1mYfLtRDUC1ZfpqGKsEfd20C4KAl114RFqB/DMMcVgjuWfqMfdyoFhQPyWifZU8YtKiR8I4d7AC5oPEcA6Hpeq2sx7nKoyufcigeIHIC9lJ5MBcUlFloZXiDXznLK46qH20FLRp9rFsT9qNdONKFy6skT15SCWPgv/Xk3B3Dq4yOrh7tvShX/wKnk/5Ws0JsUrAPotnLWPj3ROXtZWAHji0NyemKetDdrZMAj+ij1nL6jxGMWYSiTid0cI8atVHiOS8nvppbtUREaWKctzg6fi4FI46iTrCD8fyeJ64RfCaUKJiBXX+JSOTqo3/YkBYGrKeDICFDwzI0tNGZRZrHsi6kb5XgavUUq2CbeUWKFdFOSF0Qq+MGlqzIiQm60u7ygQKD7laSm5GUW8MhdQk+mTH7/rW4yhqu9L9SWiq1aTstbQiRyTWZCeeEF3040ecbWKluZNxyFBc2DwDoeFQMTx7EibW1R1DUzO6GFtbM1nqU6GzXzAG3njn0e9NxXmje97PumQYz2BB53+x4dBx5q6OOkpNdGmjQqGG8rDumU1GxVUxdQiHF16+5LHGhtqRJDiIR6sqaYzd9XSn7VjHGExYX3ziifsSFIBhH1/qDg3ppDCC6MI4wwPYrPl5OWcrXtbUsJt0g2X+EF/x039lJIXfTbV0pOW89MOgSdw=
+  file:
+  - "${RELEASE_PKG_FILE}"
+  - "${RELEASE_DEB_FILE}"
+  - "${RELEASE_RPM_FILE}"
+  skip_cleanup: true
+  on:
+    tags: true
+    jdk: oraclejdk8
