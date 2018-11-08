@@ -47,3 +47,8 @@ This project is using Maven 3 and requires Java 8 or higher.
 * Copy generated JAR file in target directory to your Graylog plugin directory.
 * Restart the Graylog.
 
+
+Join Us
+------------
+
+If you want to make part of the Globo.com Team, check out our [Open positions](https://talentos.globo.com/#/oportunidades).
