@@ -1,5 +1,6 @@
 package com.globo.graylog.plugins.oauth2.realm;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.globo.graylog.plugins.oauth2.models.AcessToken;
 import com.globo.graylog.plugins.oauth2.models.UserBackStage;
@@ -72,7 +73,7 @@ public class OAuth2 {
             return mapper.readValue(content, AcessToken.class);
         } catch (IOException e) {
             LOG.error(e.toString());
-            throw  new AuthenticationException("Something went wrong fetching the url OAuth API" + url);
+            throw  new AuthenticationException("Something went wrong when fetching the OAuth url API: " + url);
         } finally {
             HttpClientUtils.closeQuietly(response);
         }
@@ -80,34 +81,25 @@ public class OAuth2 {
 
     public UserBackStage getUser(String url, AcessToken acessToken) {
         HttpGet httpGet = new  HttpGet(url + "user");
-        HttpResponse response = null;
 
         httpGet.setHeader("Authorization", "Bearer " + acessToken.getAcessToken());
-
+        HttpResponse response = null;
+        String content = null;
         try {
             response = httpclient.execute(httpGet);
 
-            BufferedReader bufReader = new BufferedReader(new InputStreamReader(
-                    response.getEntity().getContent()));
-
-            StringBuilder builder = new StringBuilder();
-
-            String line;
-
-            while ((line = bufReader.readLine()) != null) {
-                builder.append(line);
-            }
-
-            user = mapper.readValue(builder.toString(),  UserBackStage.class);
-            bufReader.close();
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            content = buffer.lines().collect(Collectors.joining("\n"));
+            return mapper.readValue(content, UserBackStage.class);
+        } catch (JsonParseException e) {
+            LOG.error(e.toString());
+            throw  new AuthenticationException("Wrong json format: " + content);
         } catch (IOException e) {
             LOG.error(e.toString());
+            throw  new AuthenticationException("Something went wrong when fetching the User url API: " + url);
         } finally {
             HttpClientUtils.closeQuietly(response);
         }
-
-
-        return user;
     }
 
     private String getAuthorizationString(String clientId, String clientSecret) {
