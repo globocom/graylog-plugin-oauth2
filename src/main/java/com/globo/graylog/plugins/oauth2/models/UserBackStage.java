@@ -2,7 +2,6 @@ package com.globo.graylog.plugins.oauth2.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
 import java.util.Set;
 
 public class UserBackStage {
@@ -27,7 +26,7 @@ public class UserBackStage {
     private String picture;
 
     @JsonProperty("role_ids")
-    private Set<String> roleIds;
+    private Set<Object> roleIds;
 
     @JsonProperty("groups")
     private Set<String> groups;
@@ -40,11 +39,11 @@ public class UserBackStage {
         this.picture = picture;
     }
 
-    public Set<String> getRoleIds() {
+    public Set<Object> getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(Set<String> roleIds) {
+    public void setRoleIds(Set<Object> roleIds) {
         this.roleIds = roleIds;
     }
 
