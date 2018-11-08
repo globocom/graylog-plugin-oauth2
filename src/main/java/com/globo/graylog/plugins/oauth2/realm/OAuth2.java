@@ -12,8 +12,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.HttpClientUtils;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.shiro.authc.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import scala.xml.Null;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,13 +32,17 @@ public class OAuth2 {
     UserBackStage user = new  UserBackStage();
     HttpClient httpclient = HttpClients.createDefault();
 
-    public String getCodeFromReferer(String referer) {
+    public String getCodeFromReferer(String referer) throws AuthenticationException {
         String code = new String();
 
         try {
             code = referer.split("code=")[1];
-        } catch (StringIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             LOG.error(e.toString());
+            throw new AuthenticationException("Bad formated code token");
+        } catch (NullPointerException e) {
+            LOG.error(e.toString());
+            throw new AuthenticationException("The code token should not be null");
         }
 
         return code;
