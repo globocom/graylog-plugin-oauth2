@@ -113,6 +113,7 @@ public class OAuth2Realm extends AuthenticatingRealm {
 //                    } else {
 //                        user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
 //                    }
+                    user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
 
                     try {
                         userService.save(user);
