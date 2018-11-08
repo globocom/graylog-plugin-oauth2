@@ -96,23 +96,7 @@ public class OAuth2Realm extends AuthenticatingRealm {
                     user.setFullName(userBackStage.getEmail());
                     user.setEmail(userBackStage.getEmail());
 
-                    //TODO: Review this code.
-//                    if (!userBackStage.getRoleIds().isEmpty()){
-//                        try {
-//                            Role role = roleService.loadAllLowercaseNameMap().get(userBackStage.getRoleIds());
-//                            if (role != null) {
-//                                user.setRoleIds(Collections.singleton(role.getId()));
-//                            } else {
-//                                LOG.warn("Could not find role ids");
-//                                user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
-//                            }
-//                        } catch (NotFoundException e) {
-//                            LOG.info("Unable to retrieve roles, giving user reader role");
-//                            user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
-//                        }
-//                    } else {
-//                        user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
-//                    }
+                    //TODO: Review this code, implementing configuration mappings.
                     user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
 
                     try {
