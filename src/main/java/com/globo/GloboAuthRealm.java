@@ -80,26 +80,22 @@ public class GloboAuthRealm extends AuthenticatingRealm {
 
         if (userBackStage != null) {
 
-            if (ldapAuthenticator.isEnabled()) {
-                user = ldapAuthenticator.syncLdapUser(username);
-            }
-
             if (user == null) {
-                user = userService.load(username);
+                user = userService.load(userBackStage.getEmail());
             }
 
             if (user == null) {
                 if (config.autoCreateUser()) {
                     user = userService.create();
 
-                    user.setName(username);
+                    user.setName(userBackStage.getEmail());
                     user.setExternal(true);
-                    user.setPassword("globo123456");
+                    user.setPassword("dummy password");
                     user.setPermissions(Collections.emptyList());
-                    user.setFullName(username);
+                    user.setFullName(userBackStage.getEmail());
                     user.setEmail(userBackStage.getEmail());
 
-                    if (userBackStage.getRoleIds().isEmpty()){
+                    if (!userBackStage.getRoleIds().isEmpty()){
                         try {
                             Role role = roleService.loadAllLowercaseNameMap().get(userBackStage.getRoleIds());
                             if (role != null) {
