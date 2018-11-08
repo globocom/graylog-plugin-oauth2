@@ -15,6 +15,12 @@ install:
   -V
 script:
 - mvn package -B
+before_deploy:
+ - mvn jdeb:jdeb && export RELEASE_DEB_FILE=$(ls target/*.deb)
+ - mvn rpm:rpm && export RELEASE_RPM_FILE=$(find target/ -name '*.rpm' | tail -1)
+ - rm -f target/original-*.jar
+ - export RELEASE_PKG_FILE=$(ls target/*.jar)
+ - echo "Deploying release to GitHub releases"
 deploy:
   provider: releases
   api_key:
