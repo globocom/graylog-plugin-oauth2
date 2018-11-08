@@ -1,10 +1,10 @@
 {
-  "name": "GloboAuth",
+  "name": "graylog-plugin-oauth2",
   "version": "1.0.0-SNAPSHOT",
-  "description": "Globo Auth",
+  "description": "OAuth2",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.globoi.com/time-evolucao-infra/graylog-plugin-globo-auth"
+    "url": "https://github.com/globocom/graylog-plugin-oauth2"
   },
   "scripts": {
     "build": "webpack --bail -p"
