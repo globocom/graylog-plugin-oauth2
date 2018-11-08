@@ -1,4 +1,4 @@
-package com.globo.models;
+package com.globo.graylog.plugins.oauth2.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

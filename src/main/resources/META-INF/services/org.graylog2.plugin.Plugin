@@ -1,1 +1,1 @@
-com.globo.main.GloboAuthPlugin
+com.globo.graylog.plugins.oauth2.OAuth2Plugin

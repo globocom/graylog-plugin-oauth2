@@ -1,7 +1,5 @@
-package com.globo.main;
+package com.globo.graylog.plugins.oauth2;
 
-import com.globo.main.GloboAuthMetaData;
-import com.globo.main.GloboAuthModule;
 import org.graylog2.plugin.Plugin;
 import org.graylog2.plugin.PluginMetaData;
 import org.graylog2.plugin.PluginModule;
@@ -12,14 +10,14 @@ import java.util.Collections;
 /**
  * Implement the Plugin interface here.
  */
-public class GloboAuthPlugin implements Plugin {
+public class OAuth2Plugin implements Plugin {
     @Override
     public PluginMetaData metadata() {
-        return new GloboAuthMetaData();
+        return new OAuth2MetaData();
     }
 
     @Override
     public Collection<PluginModule> modules () {
-        return Collections.<PluginModule>singletonList(new GloboAuthModule());
+        return Collections.<PluginModule>singletonList(new OAuth2Module());
     }
 }

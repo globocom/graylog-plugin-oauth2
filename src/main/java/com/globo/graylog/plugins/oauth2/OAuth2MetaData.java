@@ -1,4 +1,4 @@
-package com.globo.main;
+package com.globo.graylog.plugins.oauth2;
 
 import org.graylog2.plugin.PluginMetaData;
 import org.graylog2.plugin.ServerStatus;
@@ -11,17 +11,17 @@ import java.util.Set;
 /**
  * Implement the PluginMetaData interface here.
  */
-public class GloboAuthMetaData implements PluginMetaData {
+public class OAuth2MetaData implements PluginMetaData {
     private static final String PLUGIN_PROPERTIES = "com.globo.graylog-plugin-oauth2/graylog-plugin.properties";
 
     @Override
     public String getUniqueId() {
-        return "com.globo.main.GloboAuthPlugin";
+        return "OAuth2Plugin";
     }
 
     @Override
     public String getName() {
-        return "GloboAuth";
+        return "OAuth2";
     }
 
     @Override
@@ -31,7 +31,7 @@ public class GloboAuthMetaData implements PluginMetaData {
 
     @Override
     public URI getURL() {
-        return URI.create("https://gitlab.globoi.com/time-evolucao-infra/com.globo.graylog-plugin-oauth2");
+        return URI.create("https://github.com/globocom/graylog-plugin-oauth2");
     }
 
     @Override
@@ -42,7 +42,7 @@ public class GloboAuthMetaData implements PluginMetaData {
     @Override
     public String getDescription() {
         // TODO Insert correct plugin description
-        return "Description of GloboAuth plugin";
+        return "Description of OAuth2 plugin";
     }
 
     @Override
