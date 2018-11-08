@@ -24,6 +24,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OAuth2 {
     private static final Logger LOG = LoggerFactory.getLogger(OAuth2.class);
@@ -48,42 +49,33 @@ public class OAuth2 {
         return code;
     }
 
-    public AcessToken getAuthorization(String code, String clientId, String clientSecret, String url) {
+    public AcessToken getAuthorization(
+        String code, String clientId, String clientSecret, String url, String redirectUrl, String grantType
+    ) {
         HttpPost httpPost = new HttpPost(url + "token");
         HttpResponse response = null;
 
         httpPost.setHeader("Authorization", getAuthorizationString(clientId, clientSecret));
 
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        List<NameValuePair> params = new ArrayList<>();
 
-        params.add(new BasicNameValuePair("redirect_uri", "http://localhost:8080/"));
-        params.add(new BasicNameValuePair("grant_type", "authorization_code"));
+        params.add(new BasicNameValuePair("redirect_uri", redirectUrl));
+        params.add(new BasicNameValuePair("grant_type", grantType));
 
         try {
             params.add(new BasicNameValuePair("code",  URLDecoder.decode(code, "UTF-8")));
             httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
             response = httpclient.execute(httpPost);
 
-            BufferedReader bufReader = new BufferedReader(new InputStreamReader(
-                    response.getEntity().getContent()));
-
-            StringBuilder builder = new StringBuilder();
-
-            String line;
-
-            while ((line = bufReader.readLine()) != null) {
-                builder.append(line);
-            }
-
-            acessToken = mapper.readValue(builder.toString(), AcessToken.class);
-            bufReader.close();
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            String content = buffer.lines().collect(Collectors.joining("\n"));
+            return mapper.readValue(content, AcessToken.class);
         } catch (IOException e) {
             LOG.error(e.toString());
+            throw  new AuthenticationException("Something went wrong fetching the url OAuth API" + url);
         } finally {
             HttpClientUtils.closeQuietly(response);
         }
-
-        return acessToken;
     }
 
     public UserBackStage getUser(String url, AcessToken acessToken) {
@@ -118,7 +110,7 @@ public class OAuth2 {
         return user;
     }
 
-    public String getAuthorizationString(String clientId, String clientSecret) {
+    private String getAuthorizationString(String clientId, String clientSecret) {
         return  "Basic " + Base64.getEncoder().encodeToString(
                 (clientId + ":" + clientSecret).getBytes());
     }
