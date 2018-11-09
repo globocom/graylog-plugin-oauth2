@@ -75,8 +75,7 @@ public class OAuth2Test {
         AcessToken authorization = oAuth2.getAuthorization(
                 "0b84f019d22072199d26628bad7f51f7", "55aabbeeff",
                 "secretclient", "http://server.url/",
-                "http://redirect.url:8888/",
-                "authorization_code"
+                "http://redirect.url:8888/"
         );
 
         assertEquals("a_token_test", authorization.getAcessToken());
@@ -91,8 +90,7 @@ public class OAuth2Test {
         oAuth2.getAuthorization(
                 "0b84f019d22072199d26628bad7f51f7", "55aabbeeff",
                 "secretclient", "http://server.url/",
-                "http://redirect.url:8888/",
-                "authorization_code"
+                "http://redirect.url:8888/"
         );
     }
 
@@ -146,7 +144,7 @@ public class OAuth2Test {
         assertTrue(user.getGroups().contains("admin"));
     }
 
-    public AcessToken getAccessToken() {
+    private AcessToken getAccessToken() {
         AcessToken accessToken = new AcessToken();
         accessToken.setAcessToken("a_token_test");
         accessToken.setExpiresIn(1122334455);
@@ -155,15 +153,15 @@ public class OAuth2Test {
         return accessToken;
     }
 
-    public String getResponseTokenString() {
+    private String getResponseTokenString() {
         return "{\"access_token\": \"a_token_test\", \"token_type\": \"code\", \"expires_in\": 1122334455, \"refresh_token\": \"r_token_test\"}";
     }
 
-    public String getResponseUserString() {
+    private String getResponseUserString() {
         return "{\"name\": \"Gcom\", \"username\": \"gcom.globo.com\", \"email\": \"gcom.globo.com\", \"groups\": [\"admin\", \"user\", \"audit\"]}";
     }
 
-    public String getBadFormatedResponseUserString() {
+    private String getBadFormatedResponseUserString() {
         return "{\"name\",,,,,: \"Gcom\", \"username\": \"gcom.globo.com\", \"email\": \"gcom.globo.com\", \"groups\": [\"admin\", \"user\", \"audit\"]}";
     }
 
