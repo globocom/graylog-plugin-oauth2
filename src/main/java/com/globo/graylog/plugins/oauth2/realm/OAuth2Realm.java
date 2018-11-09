@@ -85,8 +85,7 @@ public class OAuth2Realm extends AuthenticatingRealm {
         return oAuth2.getUser(config.urlBackstage(), acessToken);
     }
 
-    private String getReferer(HttpHeadersToken authenticationToken) {
-        HttpHeadersToken headersToken = authenticationToken;
+    private String getReferer(HttpHeadersToken headersToken) {
         final MultivaluedMap<String, String> requestHeaders = headersToken.getHeaders();
         return headerValue(requestHeaders, "referer");
     }
