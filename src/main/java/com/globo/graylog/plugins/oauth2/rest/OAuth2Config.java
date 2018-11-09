@@ -70,7 +70,7 @@ public abstract  class OAuth2Config {
 
     @AutoValue.Builder
     public static abstract class Builder {
-        abstract OAuth2Config build();
+        public abstract OAuth2Config build();
 
         @JsonProperty("name")
         public abstract Builder name(String name);
