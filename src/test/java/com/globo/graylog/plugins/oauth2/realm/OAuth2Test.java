@@ -70,7 +70,7 @@ public class OAuth2Test {
 
         HttpClient httpClientMock = mock(HttpClient.class);
         when(httpClientMock.execute(any(HttpPost.class))).thenReturn(response);
-        oAuth2.httpclient = httpClientMock;
+        oAuth2.setHttpclient(httpClientMock);
 
         AcessToken authorization = oAuth2.getAuthorization(
                 "0b84f019d22072199d26628bad7f51f7", "55aabbeeff",
@@ -85,7 +85,7 @@ public class OAuth2Test {
     public void getAuthorizationNotOk() throws IOException {
         HttpClient httpClientMock = mock(HttpClient.class);
         when(httpClientMock.execute(any(HttpPost.class))).thenThrow(UnknownServiceException.class);
-        oAuth2.httpclient = httpClientMock;
+        oAuth2.setHttpclient(httpClientMock);
 
         oAuth2.getAuthorization(
                 "0b84f019d22072199d26628bad7f51f7", "55aabbeeff",
@@ -103,7 +103,7 @@ public class OAuth2Test {
 
         HttpClient httpClientMock = mock(HttpClient.class);
         when(httpClientMock.execute(any(HttpGet.class))).thenReturn(response);
-        oAuth2.httpclient = httpClientMock;
+        oAuth2.setHttpclient(httpClientMock);
 
         oAuth2.getUser(
                 "http://server.url/user/",
@@ -115,7 +115,7 @@ public class OAuth2Test {
     public void getUserRequestProblem() throws IOException {
         HttpClient httpClientMock = mock(HttpClient.class);
         when(httpClientMock.execute(any(HttpGet.class))).thenThrow(new UnknownServiceException("Unknow Service"));
-        oAuth2.httpclient = httpClientMock;
+        oAuth2.setHttpclient(httpClientMock);
 
         oAuth2.getUser(
                 "http://server.url/user/",
@@ -132,7 +132,7 @@ public class OAuth2Test {
 
         HttpClient httpClientMock = mock(HttpClient.class);
         when(httpClientMock.execute(any(HttpGet.class))).thenReturn(response);
-        oAuth2.httpclient = httpClientMock;
+        oAuth2.setHttpclient(httpClientMock);
 
         UserBackStage user = oAuth2.getUser(
                 "http://server.url/user/",

@@ -47,6 +47,7 @@ public class OAuth2 {
 
     private static final Logger LOG = LoggerFactory.getLogger(OAuth2.class);
     private ObjectMapper mapper = new ObjectMapper();
+
     private HttpClient httpclient = HttpClients.createDefault();
 
     public String getCodeFromReferer(String referer) throws AuthenticationException {
@@ -121,6 +122,11 @@ public class OAuth2 {
         return  "Basic " + Base64.getEncoder().encodeToString(
                 (clientId + ":" + clientSecret).getBytes());
     }
+
+    public void setHttpclient(HttpClient httpclient) {
+        this.httpclient = httpclient;
+    }
+
 }
 
 
