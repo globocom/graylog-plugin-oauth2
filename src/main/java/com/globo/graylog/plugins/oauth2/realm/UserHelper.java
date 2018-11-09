@@ -43,24 +43,30 @@ public class UserHelper {
     }
 
     public User saveUserIfNecessary(User user, OAuth2Config config, UserBackStage oAuthUser) throws AuthenticationException {
-        if(user == null && config.autoCreateUser()) {
-            user = userService.create();
-            user.setName(oAuthUser.getEmail());
-            user.setExternal(true);
-            user.setFullName(oAuthUser.getName() + " " + oAuthUser.getSurName());
-            user.setEmail(oAuthUser.getEmail());
-            user.setPassword("dummy password");
-            user.setPermissions(Collections.emptyList());
+        if(user == null) {
+            if(config.autoCreateUser()) {
+                user = userService.create();
+                user.setName(oAuthUser.getEmail());
+                user.setExternal(true);
+                user.setFullName(oAuthUser.getName() + " " + oAuthUser.getSurName());
+                user.setEmail(oAuthUser.getEmail());
+                user.setPassword("dummy password");
+                user.setPermissions(Collections.emptyList());
 
-            //TODO: Review this code, implementing configuration mappings.
-            user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
-
-            try {
-                userService.save(user);
-                return user;
-            } catch (ValidationException e) {
-                LOG.error("Unable to save user {}", user, e);
-                throw new AuthenticationException("Unable to save the user on the local database");
+                //TODO: Review this code, implementing configuration mappings.
+                user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
+                try {
+                    userService.save(user);
+                    return user;
+                } catch (ValidationException e) {
+                    LOG.error("Unable to save user {}", user, e);
+                    throw new AuthenticationException("Unable to save the user on the local database");
+                }
+            } else {
+                throw new AuthenticationException(
+                    "The user is on your oauth server, but not on graylog. " +
+                    "Create the user on or enable the auto create user feature on the OAuth2 plugin."
+                );
             }
         } else {
             return user;
