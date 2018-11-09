@@ -68,7 +68,7 @@ public class OAuth2 {
     }
 
     public AcessToken getAuthorization(
-        String code, String clientId, String clientSecret, String url, String redirectUrl, String grantType
+        String code, String clientId, String clientSecret, String url, String redirectUrl
     ) {
         HttpPost httpPost = new HttpPost(url + "token");
         HttpResponse response = null;
@@ -78,7 +78,7 @@ public class OAuth2 {
         List<NameValuePair> params = new ArrayList<>();
 
         params.add(new BasicNameValuePair("redirect_uri", redirectUrl));
-        params.add(new BasicNameValuePair("grant_type", grantType));
+        params.add(new BasicNameValuePair("grant_type", "authorization_code"));
 
         try {
             params.add(new BasicNameValuePair("code",  URLDecoder.decode(code, "UTF-8")));
