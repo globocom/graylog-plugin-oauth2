@@ -23,10 +23,6 @@ import java.util.Set;
 
 public class UserBackStage {
 
-    public UserBackStage(){
-
-    }
-
     @JsonProperty("name")
     private String name;
 

@@ -45,21 +45,21 @@ public class UserHelper {
     public User saveUserIfNecessary(User user, OAuth2Config config, UserBackStage oAuthUser) throws AuthenticationException {
         if(user == null) {
             if(config.autoCreateUser()) {
-                user = userService.create();
-                user.setName(oAuthUser.getEmail());
-                user.setExternal(true);
-                user.setFullName(oAuthUser.getName() + " " + oAuthUser.getSurName());
-                user.setEmail(oAuthUser.getEmail());
-                user.setPassword("dummy password");
-                user.setPermissions(Collections.emptyList());
+                User newUser = userService.create();
+                newUser.setName(oAuthUser.getEmail());
+                newUser.setExternal(true);
+                newUser.setFullName(oAuthUser.getName() + " " + oAuthUser.getSurName());
+                newUser.setEmail(oAuthUser.getEmail());
+                newUser.setPassword("dummy password");
+                newUser.setPermissions(Collections.emptyList());
 
                 //TODO: Review this code, implementing configuration mappings.
-                user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
+                newUser.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
                 try {
-                    userService.save(user);
-                    return user;
+                    userService.save(newUser);
+                    return newUser;
                 } catch (ValidationException e) {
-                    LOG.error("Unable to save user {}", user, e);
+                    LOG.error("Unable to save user {}", newUser, e);
                     throw new AuthenticationException("Unable to save the user on the local database");
                 }
             } else {

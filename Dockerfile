@@ -1,2 +1,2 @@
-FROM sonarsource/local-travis
-ADD . /home/travis
+FROM sonarsource/local-travis:latest
+COPY . /home/travis

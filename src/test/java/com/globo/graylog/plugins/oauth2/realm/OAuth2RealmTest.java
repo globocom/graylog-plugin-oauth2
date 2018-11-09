@@ -54,7 +54,7 @@ public class OAuth2RealmTest {
 
         when(oAuth2Mock.getUser("url server", dummyToken)).thenReturn(null);
 
-        realm = new OAuth2Realm(null, configServiceMock, null, oAuth2Mock, null);
+        realm = new OAuth2Realm(null, configServiceMock, oAuth2Mock, null);
 
         MultivaluedHashMap<String, String> map = new MultivaluedHashMap<>();
         map.put("referer", Collections.singletonList(refererValue));
@@ -90,7 +90,7 @@ public class OAuth2RealmTest {
         UserHelper userHelperMock = mock(UserHelper.class);
         when(userHelperMock.saveUserIfNecessary(dummyGraylogUser, oAuth2Config, dummyUserPlugin)).thenReturn(dummyGraylogUser);
 
-        realm = new OAuth2Realm(userServiceMock, configServiceMock, null, oAuth2Mock, userHelperMock);
+        realm = new OAuth2Realm(userServiceMock, configServiceMock, oAuth2Mock, userHelperMock);
 
         MultivaluedHashMap<String, String> map = new MultivaluedHashMap<>();
         map.put("referer", Collections.singletonList(refererValue));

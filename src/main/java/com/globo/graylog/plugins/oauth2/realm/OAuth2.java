@@ -33,7 +33,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.shiro.authc.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import scala.xml.Null;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,14 +44,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class OAuth2 {
+
     private static final Logger LOG = LoggerFactory.getLogger(OAuth2.class);
-    ObjectMapper mapper = new ObjectMapper();
-    AcessToken acessToken = new AcessToken();
-    UserBackStage user = new  UserBackStage();
-    HttpClient httpclient = HttpClients.createDefault();
+    private ObjectMapper mapper = new ObjectMapper();
+    private HttpClient httpclient = HttpClients.createDefault();
 
     public String getCodeFromReferer(String referer) throws AuthenticationException {
-        String code = new String();
+        String code;
 
         try {
             code = referer.split("code=")[1];

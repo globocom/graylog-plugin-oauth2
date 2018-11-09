@@ -15,22 +15,21 @@
  * along with Foobar. If not, see <https://www.gnu.org/licenses/>
  */
 
-import Reflux from 'reflux';
+import Reflux from "reflux";
 
-import OAuth2Actions from 'OAuth2Actions';
+import OAuth2Actions from "OAuth2Actions";
 
-import UserNotification from 'util/UserNotification';
-import URLUtils from 'util/URLUtils';
-import fetch from 'logic/rest/FetchProvider';
+import UserNotification from "util/UserNotification";
+import URLUtils from "util/URLUtils";
+import fetch from "logic/rest/FetchProvider";
 
-const urlPrefix = '/plugins/com.globo.graylog.plugins.oauth2';
+const urlPrefix = "/plugins/com.globo.graylog.plugins.oauth2";
 
 const OAuth2Store = Reflux.createStore({
   listenables: [OAuth2Actions],
 
   getInitialState() {
     return {
-      config: undefined,
     };
   },
 
@@ -54,7 +53,7 @@ const OAuth2Store = Reflux.createStore({
   },
 
   config() {
-    const promise = fetch('GET', this._url('/oauth'));
+    const promise = fetch("GET", this._url("/oauth"));
 
     promise.then((response) => {
       this.trigger({ config: response });
@@ -68,8 +67,8 @@ const OAuth2Store = Reflux.createStore({
 
     promise.then((response) => {
       this.trigger({ config: response });
-      UserNotification.success('Oauth2 configuration was updated successfully');
-    }, this._errorHandler('Updating Oauth2 config failed', 'Unable to update Oauth2 authenticator config'));
+      UserNotification.success("Oauth2 configuration was updated successfully");
+    }, this._errorHandler("Updating Oauth2 config failed", "Unable to update Oauth2 authenticator config"));
 
      OAuth2Actions.saveConfig.promise(promise);
   },

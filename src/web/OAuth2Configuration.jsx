@@ -24,10 +24,10 @@ import { PageHeader, Spinner } from "components/common";
 import OAuth2Actions from "OAuth2Actions";
 import OAuth2Store from "OAuth2Store";
 
-import StoreProvider from 'injection/StoreProvider';
-const RolesStore = StoreProvider.getStore('Roles')
+import StoreProvider from "injection/StoreProvider";
+const RolesStore = StoreProvider.getStore("Roles");
 
-import ObjectUtils from 'util/ObjectUtils';
+import ObjectUtils from "util/ObjectUtils";
 
 const OAuth2Configuration = React.createClass({
 
@@ -37,8 +37,8 @@ const OAuth2Configuration = React.createClass({
 
     componentDidMount() {
       OAuth2Actions.config();
-      RolesStore.loadRoles().done(roles => {
-        this.setState({ roles: roles.map(role => role.name) });
+      RolesStore.loadRoles().done((roles) => {
+        this.setState({ roles: roles.map((role) => role.name) });
       });
     },
 
@@ -57,7 +57,7 @@ const OAuth2Configuration = React.createClass({
     },
 
    _bindChecked(ev, value) {
-       this._setSetting(ev.target.name, typeof value === 'undefined' ? ev.target.checked : value);
+       this._setSetting(ev.target.name, typeof value === "undefined" ? ev.target.checked : value);
    },
 
    _bindValue(ev) {

@@ -15,7 +15,7 @@
  * along with Foobar. If not, see <https://www.gnu.org/licenses/>
  */
 
-import Reflux from 'reflux';
+import Reflux from "reflux";
 
 const OAuth2Actions = Reflux.createActions({
   config: { asyncResult: true },

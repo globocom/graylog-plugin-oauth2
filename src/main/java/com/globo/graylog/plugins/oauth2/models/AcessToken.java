@@ -21,10 +21,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AcessToken {
 
-    public AcessToken(){
-
-    }
-
     @JsonProperty("access_token")
     private String acessToken;
 

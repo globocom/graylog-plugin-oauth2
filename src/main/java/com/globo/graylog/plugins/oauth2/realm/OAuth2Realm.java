@@ -28,7 +28,6 @@ import org.apache.shiro.authc.credential.AllowAllCredentialsMatcher;
 import org.apache.shiro.realm.AuthenticatingRealm;
 import org.graylog2.plugin.cluster.ClusterConfigService;
 import org.graylog2.plugin.database.users.User;
-import org.graylog2.security.realm.LdapUserAuthenticator;
 import org.graylog2.shared.security.HttpHeadersToken;
 import org.graylog2.shared.security.ShiroSecurityContext;
 import org.graylog2.shared.users.UserService;
@@ -40,7 +39,6 @@ import javax.ws.rs.core.MultivaluedMap;
 public class OAuth2Realm extends AuthenticatingRealm {
     public static final String NAME = "oauth2";
 
-    private final LdapUserAuthenticator ldapAuthenticator;
     private final UserService userService;
     private final ClusterConfigService clusterConfigService;
     private final OAuth2 oAuth2;
@@ -49,13 +47,11 @@ public class OAuth2Realm extends AuthenticatingRealm {
     @Inject
     public OAuth2Realm(UserService userService,
                        ClusterConfigService clusterConfigService,
-                       LdapUserAuthenticator ldapAuthenticator,
                        OAuth2 oAuth2,
                        UserHelper userHelper
                        ) {
         this.userService = userService;
         this.clusterConfigService = clusterConfigService;
-        this.ldapAuthenticator = ldapAuthenticator;
         this.oAuth2 = oAuth2;
         this.userHelper = userHelper;
         setAuthenticationTokenClass(HttpHeadersToken.class);
