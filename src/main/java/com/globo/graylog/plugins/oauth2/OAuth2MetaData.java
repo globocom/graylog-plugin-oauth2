@@ -33,17 +33,17 @@ public class OAuth2MetaData implements PluginMetaData {
 
     @Override
     public String getUniqueId() {
-        return "OAuth2Plugin";
+        return "com.globo.graylog.plugins.oauth2.OAuth2Plugin";
     }
 
     @Override
     public String getName() {
-        return "OAuth2";
+        return "OAuth2 Authentication Provider";
     }
 
     @Override
     public String getAuthor() {
-        return "Matheus Da Luz Costa <matheus.costa@corp.globo.com>";
+        return "Globo.com - Evolucao Infra <timeevolucaoinfra@corp.globo.com>";
     }
 
     @Override
@@ -58,8 +58,7 @@ public class OAuth2MetaData implements PluginMetaData {
 
     @Override
     public String getDescription() {
-        // TODO Insert correct plugin description
-        return "Description of OAuth2 plugin";
+        return "This plugins adds Oauth2 capabilities to Graylog. It supports automatic login and user account creation based on Oauth 2.0.";
     }
 
     @Override

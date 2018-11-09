@@ -49,7 +49,7 @@ import java.util.Set;
 public class OAuth2Realm extends AuthenticatingRealm {
     private static final Logger LOG = LoggerFactory.getLogger(OAuth2Realm.class);
 
-    public static final String NAME = "globo-oauth";
+    public static final String NAME = "oauth2";
 
     private final LdapUserAuthenticator ldapAuthenticator;
     private final UserService userService;
