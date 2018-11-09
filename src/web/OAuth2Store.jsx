@@ -57,13 +57,13 @@ const OAuth2Store = Reflux.createStore({
 
     promise.then((response) => {
       this.trigger({ config: response });
-    }, this._errorHandler('Fetching config failed', 'Could not retrieve Oauth2'));
+    }, this._errorHandler("Fetching config failed", "Could not retrieve Oauth2"));
 
     OAuth2Actions.config.promise(promise);
   },
 
   saveConfig(config) {
-    const promise = fetch('PUT', this._url('/oauth'), config);
+    const promise = fetch("PUT", this._url("/oauth"), config);
 
     promise.then((response) => {
       this.trigger({ config: response });

@@ -22,15 +22,15 @@ If you are developing the plugin with graylog-server, you should follow these st
 * import the module into graylog-project pom.xml
 
        <module>../graylog-project-repos/graylog-plugin-oauth2</module>
-         
+
 * import the jar into graylog-project pom.xml
-            
+
     <dependency>
-      <groupId>com.globo</groupId>
+        <groupId>com.globo</groupId>
         <artifactId>graylog-plugin-oauth2</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </dependency>
-    
+
 ## Usage
 
 You need to enter the authentication page and configure your Oauth plugin with all the required fields.

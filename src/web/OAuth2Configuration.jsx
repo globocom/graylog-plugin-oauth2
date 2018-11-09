@@ -18,7 +18,7 @@
 import React from "react";
 import Reflux from "reflux";
 import { Row, Col, Button, Alert } from "react-bootstrap";
-import { Input } from 'components/bootstrap';
+import { Input } from "components/bootstrap";
 
 import { PageHeader, Spinner } from "components/common";
 import OAuth2Actions from "OAuth2Actions";
