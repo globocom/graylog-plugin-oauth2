@@ -25,11 +25,11 @@ If you are developing the plugin with graylog-server, you should follow these st
 
 * import the jar into graylog-project pom.xml
 
-    <dependency>
-        <groupId>com.globo</groupId>
-        <artifactId>graylog-plugin-oauth2</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </dependency>
+           <dependency>
+             <groupId>com.globo</groupId>
+               <artifactId>graylog-plugin-oauth2</artifactId>
+               <version>1.0.0-SNAPSHOT</version>
+           </dependency>
 
 ## Usage
 
