@@ -42,7 +42,7 @@ public abstract  class OAuth2Config {
                 .clientId("")
                 .clientSecret("")
                 .urlBackstage("")
-                .urlRedirec("")
+                .urlRedirect("")
                 .autoCreateUser(false)
                 .build();
     }
@@ -85,7 +85,7 @@ public abstract  class OAuth2Config {
         public abstract Builder urlBackstage(@Nullable String urlBackstage);
 
         @JsonProperty("url_redirect")
-        public abstract Builder urlRedirec(@Nullable String urlRedirect);
+        public abstract Builder urlRedirect(@Nullable String urlRedirect);
 
         @JsonProperty("auto_create_user")
         public abstract Builder autoCreateUser(boolean autoCreateUser);
