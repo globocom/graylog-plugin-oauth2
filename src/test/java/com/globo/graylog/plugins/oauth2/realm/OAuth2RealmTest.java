@@ -105,9 +105,6 @@ public class OAuth2RealmTest {
             .autoCreateUser(true)
             .clientId("clientId")
             .clientSecret("clientSecret")
-            .name("username")
-            .urlRedirect("url redirect")
-            .urlBackstage("url server")
             .build();
     }
 

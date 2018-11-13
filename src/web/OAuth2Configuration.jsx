@@ -69,52 +69,59 @@ const OAuth2Configuration = React.createClass({
     if (!this.state.config) {
           content = <Spinner />;
     } else {
+        const roles = this.state.roles.map((role) => <option key={"default-group-" + role} value={role}>{role}</option>);
         content = (
            <Row>
              <Col lg={8}>
                 <form id="oauth-config-form" className="form-horizontal" onSubmit={this._saveSettings}>
                      <fieldset>
-                        <legend className="col-sm-12">Oauth configuration</legend>
-                        <Input type="text" id="name" name="name" labelClassName="col-sm-3"
-                            wrapperClassName="col-sm-9" placeholder="Name" label="Name"
-                            value={this.state.config.name} help="Application name"
-                            onChange={this._bindValue} required/>
-                     </fieldset>
-                     <fieldset>
-                         <Input type="text" id="client_id" name="client_id" labelClassName="col-sm-3"
-                             wrapperClassName="col-sm-9" placeholder="Client id" label="Client Id"
-                             value={this.state.config.client_id} help="Client Id"
+                         <legend className="col-sm-12">1. Basic Configuration</legend>
+                         <Input type="text" id="token_server_url" name="token_server_url" labelClassName="col-sm-3"
+                             wrapperClassName="col-sm-9"  label="Token Server URL"
+                             value={this.state.config.token_server_url} help="Full application URL to get token authorization"
                              onChange={this._bindValue} required/>
-                     </fieldset>
-                     <fieldset>
-                          <Input type="text" id="client_secret" name="client_secret" labelClassName="col-sm-3"
-                              wrapperClassName="col-sm-9" placeholder="Client Secret" label="Client Secret"
-                              value={this.state.config.client_secret} help="Client Secret"
+
+                          <Input type="text" id="data_server_url" name="data_server_url" labelClassName="col-sm-3"
+                              wrapperClassName="col-sm-9"  label="User Data Server URL"
+                              value={this.state.config.data_server_url} help="Full application URL to get user data"
                               onChange={this._bindValue} required/>
-                     </fieldset>
-                     <fieldset>
-                           <Input type="text" id="url_backstage" name="url_backstage" labelClassName="col-sm-3"
-                               wrapperClassName="col-sm-9" placeholder="Url Backstage" label="Url Backstage"
-                               value={this.state.config.url_backstage} help="Url Backstage"
-                               onChange={this._bindValue} required/>
-                     </fieldset>
-                     <fieldset>
-                         <legend className="col-sm-12">User creation</legend>
-                         <Input type="checkbox" label="Automatically create users"
-                                help="Enable this if Graylog should automatically create a user account for externally authenticated users. If disabled, an administrator needs to manually create a user account."
-                                wrapperClassName="col-sm-offset-3 col-sm-9"
-                                checked={this.state.config.auto_create_user}
-                                name="auto_create_user"
-                                onChange={this._bindChecked}/>
-                     </fieldset>
-                     <fieldset>
-                        <legend className="col-sm-12">Oauth settings</legend>
+
+                          <Input type="text" id="client_id" name="client_id" labelClassName="col-sm-3"
+                                 wrapperClassName="col-sm-9"  label="Client Id"
+                                 value={this.state.config.client_id}
+                                 onChange={this._bindValue} required/>
+
+                          <Input type="text" id="client_secret" name="client_secret" labelClassName="col-sm-3"
+                                  wrapperClassName="col-sm-9"  label="Client Secret"
+                                  value={this.state.config.client_secret}
+                                  onChange={this._bindValue} required/>
+
+                          <Input type="checkbox" label="Automatically create users"
+                                 help="If checked, new users are automatically create in graylog if OAuth2 authentication ocurred successfuly. If unchecked, an administrator need to create user in graylog first."
+                                 wrapperClassName="col-sm-offset-3 col-sm-9"
+                                 checked={this.state.config.auto_create_user}
+                                 name="auto_create_user"
+                                 onChange={this._bindChecked}/>
+
+                          <Input id="default_group" labelClassName="col-sm-3" wrapperClassName="col-sm-9" label="Default User Role"
+                                help="The default Graylog role determines whether a user created can access the entire system, or has limited access.">
+                               <Row>
+                                 <Col sm={6}>
+                                   <select id="default_group" name="default_group" className="form-control" required
+                                           value={this.state.config.default_group || 'Reader'}
+                                           onChange={this._bindValue} disabled={!this.state.config.auto_create_user}>
+                                           {roles}
+                                   </select>
+                                 </Col>
+                               </Row>
+                          </Input>
+
                         <div className="form-group">
                           <Col sm={9} smOffset={3}>
-                            <Button type="submit" bsStyle="success">Save Oauth settings</Button>
+                            <Button type="submit" bsStyle="success">Save</Button>
                           </Col>
                         </div>
-                      </fieldset>
+                     </fieldset>
                 </form>
              </Col>
            </Row>
@@ -124,7 +131,7 @@ const OAuth2Configuration = React.createClass({
     return (
       <div>
         <PageHeader title="Oauth2" subpage>
-          <span>Configuration page for the Oauth2.</span>
+          <span>This page is the only resource you need to set up the Graylog OAuth2 integration.</span>
         </PageHeader>
         {content}
       </div>

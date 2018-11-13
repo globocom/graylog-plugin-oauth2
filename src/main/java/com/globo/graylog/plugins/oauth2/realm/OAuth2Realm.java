@@ -77,8 +77,9 @@ public class OAuth2Realm extends AuthenticatingRealm {
 
     private UserBackStage getOAuthUser(String referer, OAuth2Config config) {
         String code = oAuth2.getCodeFromReferer(referer);
-        AcessToken acessToken = oAuth2.getAuthorization(code, config.clientId(), config.clientSecret(), config.urlBackstage(), config.urlRedirect());
-        return oAuth2.getUser(config.urlBackstage(), acessToken);
+//        AcessToken acessToken = oAuth2.getAuthorization(code, config.clientId(), config.clientSecret(), config.urlBackstage(), config.urlRedirect());
+//        return oAuth2.getUser(config.urlBackstage(), acessToken);
+          return null;
     }
 
     private String getReferer(HttpHeadersToken headersToken) {
