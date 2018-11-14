@@ -108,7 +108,7 @@ const OAuth2Configuration = React.createClass({
                                <Row>
                                  <Col sm={6}>
                                    <select id="default_group" name="default_group" className="form-control" required
-                                           value={this.state.config.default_group || 'Reader'}
+                                           value={this.state.config.default_group || "Reader"}
                                            onChange={this._bindValue} disabled={!this.state.config.auto_create_user}>
                                            {roles}
                                    </select>

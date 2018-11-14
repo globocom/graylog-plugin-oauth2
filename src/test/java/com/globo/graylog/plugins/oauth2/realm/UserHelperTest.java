@@ -32,7 +32,7 @@ import static org.mockito.Mockito.*;
 public class UserHelperTest {
 
     private UserHelper userHelper;
-    
+
     @Test(expected = AuthenticationException.class)
     public void whenUserIsNullAndAutoCreateIsNotEnabled() {
         OAuth2Config configMock = mock(OAuth2Config.class);

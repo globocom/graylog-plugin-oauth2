@@ -69,11 +69,9 @@ public class OAuth2Realm extends AuthenticatingRealm {
         if (oAuthUser != null) {
             user = userService.load(oAuthUser.getEmail());
 
-            if (user == null) {
-                if (config.autoCreateUser()) {
+            if (user == null && config.autoCreateUser()) {
                     user = userService.create();
                     user = userHelper.saveUserIfNecessary(user, config, oAuthUser);
-                }
             }
 
             ShiroSecurityContext.requestSessionCreation(true);
