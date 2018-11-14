@@ -20,8 +20,10 @@ package com.globo.graylog.plugins.oauth2.realm;
 import com.globo.graylog.plugins.oauth2.models.UserBackStage;
 import com.globo.graylog.plugins.oauth2.rest.OAuth2Config;
 import org.apache.shiro.authc.AuthenticationException;
+import org.graylog2.database.NotFoundException;
 import org.graylog2.plugin.database.ValidationException;
 import org.graylog2.plugin.database.users.User;
+import org.graylog2.shared.users.Role;
 import org.graylog2.shared.users.UserService;
 import org.graylog2.users.RoleService;
 import org.slf4j.Logger;
@@ -43,35 +45,37 @@ public class UserHelper {
     }
 
     public User saveUserIfNecessary(User user, OAuth2Config config, UserBackStage oAuthUser) throws AuthenticationException {
-        if(user == null) {
-            if(config.autoCreateUser()) {
-                User newUser = userService.create();
-                newUser.setName(oAuthUser.getEmail());
-                newUser.setExternal(true);
-                newUser.setFullName(oAuthUser.getName() + " " + oAuthUser.getSurName());
-                newUser.setEmail(oAuthUser.getEmail());
-                newUser.setPassword("dummy password");
-                newUser.setPermissions(Collections.emptyList());
 
-                //TODO: Review this code, implementing configuration mappings.
-                newUser.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
-                try {
-                    userService.save(newUser);
-                    return newUser;
-                } catch (ValidationException e) {
-                    LOG.error("Unable to save user {}", newUser, e);
-                    throw new AuthenticationException("Unable to save the user on the local database");
+        user.setName(oAuthUser.getEmail());
+        user.setExternal(true);
+        user.setFullName(oAuthUser.getName() + " " + oAuthUser.getSurName());
+        user.setEmail(oAuthUser.getEmail());
+        user.setPassword("dummy password");
+        user.setPermissions(Collections.emptyList());
+
+        final String defaultGroup = config.defaultGroup();
+        if (defaultGroup != null) {
+            try{
+                Role role = roleService.loadAllLowercaseNameMap().get(defaultGroup.toLowerCase());
+                if (role != null) {
+                    user.setRoleIds(Collections.singleton(role.getId()));
+                } else {
+                    user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
                 }
-            } else {
-                throw new AuthenticationException(
-                    "The user is on your oauth server, but not on graylog. " +
-                    "Create the user on or enable the auto create user feature on the OAuth2 plugin."
-                );
+            }  catch (NotFoundException e) {
+                LOG.info("Unable to retrieve roles, giving user reader role");
             }
         } else {
+            user.setRoleIds(Collections.singleton(roleService.getReaderRoleObjectId()));
+        }
+
+        try {
+            userService.save(user);
             return user;
+        } catch (ValidationException e) {
+            LOG.error("Unable to save user {}", user, e);
+            throw new AuthenticationException("Unable to save the user on the local database");
         }
     }
-
 
 }

@@ -69,7 +69,7 @@ public class OAuth2 {
     public AcessToken getAuthorization(
         String code, String clientId, String clientSecret, String url, String redirectUrl
     ) {
-        HttpPost httpPost = new HttpPost(url + "token");
+        HttpPost httpPost = new HttpPost(url);
         HttpResponse response = null;
 
         httpPost.setHeader("Authorization", getAuthorizationString(clientId, clientSecret));
@@ -96,7 +96,7 @@ public class OAuth2 {
     }
 
     public UserBackStage getUser(String url, AcessToken acessToken) {
-        HttpGet httpGet = new  HttpGet(url + "user");
+        HttpGet httpGet = new  HttpGet(url);
 
         httpGet.setHeader("Authorization", "Bearer " + acessToken.getAcessToken());
         HttpResponse response = null;
