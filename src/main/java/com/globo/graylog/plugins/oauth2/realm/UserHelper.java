@@ -46,6 +46,14 @@ public class UserHelper {
 
     public User saveUserIfNecessary(User user, OAuth2Config config, UserBackStage oAuthUser) throws AuthenticationException {
 
+        if (user == null) {
+            try {
+                user = userService.create();
+            } catch (NullPointerException e){
+                throw new AuthenticationException("Unable to create an user object.");
+            }
+        }
+
         user.setName(oAuthUser.getEmail());
         user.setExternal(true);
         user.setFullName(oAuthUser.getName() + " " + oAuthUser.getSurName());

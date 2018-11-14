@@ -75,12 +75,12 @@ public class OAuth2RealmTest {
 
         AcessToken dummyToken = new AcessToken();
         when(oAuth2Mock.getAuthorization(
-                "MockedCode", "clientId", "clientSecret", "url server", "url redirect")
+                "MockedCode", "clientId", "clientSecret", "url server", "http://localhost:8080/")
         ).thenReturn(dummyToken);
 
         UserBackStage dummyUserPlugin = new UserBackStage();
         dummyUserPlugin.setEmail("user@email");
-        when(oAuth2Mock.getUser("url server", dummyToken)).thenReturn(dummyUserPlugin);
+        when(oAuth2Mock.getUser("url redirect", dummyToken)).thenReturn(dummyUserPlugin);
 
         User dummyGraylogUser = mock(User.class);
         when(dummyGraylogUser.getName()).thenReturn("Graylog user name");
@@ -102,10 +102,12 @@ public class OAuth2RealmTest {
 
     private OAuth2Config getOAuth2Config() {
         return OAuth2Config.builder()
-            .autoCreateUser(true)
-            .clientId("clientId")
-            .clientSecret("clientSecret")
-            .build();
+                .autoCreateUser(true)
+                .clientId("clientId")
+                .clientSecret("clientSecret")
+                .dataServerUrl("url redirect")
+                .tokenServerUrl("url server")
+                .build();
     }
 
 

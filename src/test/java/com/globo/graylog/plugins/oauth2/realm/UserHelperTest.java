@@ -32,16 +32,7 @@ import static org.mockito.Mockito.*;
 public class UserHelperTest {
 
     private UserHelper userHelper;
-
-    @Test
-    public void whenUserIsNotNullPreserveTheOriginalUser() {
-        userHelper = new UserHelper(null, null);
-        User mockedUser = mock(User.class);
-        User user = userHelper.saveUserIfNecessary(mockedUser, mock(OAuth2Config.class), mock(UserBackStage.class));
-
-        assertSame(user, mockedUser);
-    }
-
+    
     @Test(expected = AuthenticationException.class)
     public void whenUserIsNullAndAutoCreateIsNotEnabled() {
         OAuth2Config configMock = mock(OAuth2Config.class);
