@@ -2,42 +2,40 @@ sudo: required
 dist: trusty
 language: java
 jdk:
-- oraclejdk8
+  - oraclejdk8
 addons:
   apt:
     packages:
-    - rpm
+      - rpm
 install:
-- git clone --branch 2.4 --depth=1 --no-single-branch https://github.com/Graylog2/graylog2-server
-  ../graylog2-server
-- "(cd ../graylog2-server && mvn -DskipTests=true compile -B -V)"
-- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dskip.web.build=true -B -V
+  - git clone --branch 2.4 --depth=1 --no-single-branch https://github.com/Graylog2/graylog2-server
+    ../graylog2-server
+  - "(cd ../graylog2-server && mvn -DskipTests=true compile -B -V)"
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dskip.web.build=true -B
+    -V
 script:
-- mvn package -B
-
+  - mvn package -B
 before_install:
   - sudo apt-get install jq
-  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r '.assets[0].browser_download_url')
-
+  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl -H "Authorization:token $GT_TOKEN" https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r '.assets[0].browser_download_url')
 after_success:
-  - mvn jacoco:report	
+  - mvn jacoco:report
   - export CODACY_PROJECT_TOKEN='d105843572a740fbb4f0336bf3dfef19'
   - java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/site/jacoco/jacoco.xml
-
 before_deploy:
-- mvn jdeb:jdeb && export RELEASE_DEB_FILE=$(ls target/*.deb)
-- mvn rpm:rpm && export RELEASE_RPM_FILE=$(find target/ -name '*.rpm' | tail -1)
-- rm -f target/original-*.jar
-- export RELEASE_PKG_FILE=$(ls target/*.jar)
-- echo "Deploying release to GitHub releases"
+  - mvn jdeb:jdeb && export RELEASE_DEB_FILE=$(ls target/*.deb)
+  - mvn rpm:rpm && export RELEASE_RPM_FILE=$(find target/ -name '*.rpm' | tail -1)
+  - rm -f target/original-*.jar
+  - export RELEASE_PKG_FILE=$(ls target/*.jar)
+  - echo "Deploying release to GitHub releases"
 deploy:
   provider: releases
   api_key:
     secure: X2MlS1mYfLtRDUC1ZfpqGKsEfd20C4KAl114RFqB/DMMcVgjuWfqMfdyoFhQPyWifZU8YtKiR8I4d7AC5oPEcA6Hpeq2sx7nKoyufcigeIHIC9lJ5MBcUlFloZXiDXznLK46qH20FLRp9rFsT9qNdONKFy6skT15SCWPgv/Xk3B3Dq4yOrh7tvShX/wKnk/5Ws0JsUrAPotnLWPj3ROXtZWAHji0NyemKetDdrZMAj+ij1nL6jxGMWYSiTid0cI8atVHiOS8nvppbtUREaWKctzg6fi4FI46iTrCD8fyeJ64RfCaUKJiBXX+JSOTqo3/YkBYGrKeDICFDwzI0tNGZRZrHsi6kb5XgavUUq2CbeUWKFdFOSF0Qq+MGlqzIiQm60u7ygQKD7laSm5GUW8MhdQk+mTH7/rW4yhqu9L9SWiq1aTstbQiRyTWZCeeEF3040ecbWKluZNxyFBc2DwDoeFQMTx7EibW1R1DUzO6GFtbM1nqU6GzXzAG3njn0e9NxXmje97PumQYz2BB53+x4dBx5q6OOkpNdGmjQqGG8rDumU1GxVUxdQiHF16+5LHGhtqRJDiIR6sqaYzd9XSn7VjHGExYX3ziifsSFIBhH1/qDg3ppDCC6MI4wwPYrPl5OWcrXtbUsJt0g2X+EF/x039lJIXfTbV0pOW89MOgSdw=
   file:
-  - "${RELEASE_PKG_FILE}"
-  - "${RELEASE_DEB_FILE}"
-  - "${RELEASE_RPM_FILE}"
+    - "${RELEASE_PKG_FILE}"
+    - "${RELEASE_DEB_FILE}"
+    - "${RELEASE_RPM_FILE}"
   skip_cleanup: true
   on:
     tags: true
