@@ -37,8 +37,7 @@ public class UserHelper {
     private static final Logger LOG = LoggerFactory.getLogger(OAuth2Realm.class);
     private UserService userService;
     private RoleService roleService;
-    grouu
-
+    
     @Inject
     public UserHelper(UserService userService, RoleService roleService) {
         this.userService = userService;
