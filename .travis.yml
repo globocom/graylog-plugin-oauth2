@@ -16,10 +16,8 @@ install:
 script:
   - mvn package -B
 before_install:
-  env:
-    - secure: X2MlS1mYfLtRDUC1ZfpqGKsEfd20C4KAl114RFqB/DMMcVgjuWfqMfdyoFhQPyWifZU8YtKiR8I4d7AC5oPEcA6Hpeq2sx7nKoyufcigeIHIC9lJ5MBcUlFloZXiDXznLK46qH20FLRp9rFsT9qNdONKFy6skT15SCWPgv/Xk3B3Dq4yOrh7tvShX/wKnk/5Ws0JsUrAPotnLWPj3ROXtZWAHji0NyemKetDdrZMAj+ij1nL6jxGMWYSiTid0cI8atVHiOS8nvppbtUREaWKctzg6fi4FI46iTrCD8fyeJ64RfCaUKJiBXX+JSOTqo3/YkBYGrKeDICFDwzI0tNGZRZrHsi6kb5XgavUUq2CbeUWKFdFOSF0Qq+MGlqzIiQm60u7ygQKD7laSm5GUW8MhdQk+mTH7/rW4yhqu9L9SWiq1aTstbQiRyTWZCeeEF3040ecbWKluZNxyFBc2DwDoeFQMTx7EibW1R1DUzO6GFtbM1nqU6GzXzAG3njn0e9NxXmje97PumQYz2BB53+x4dBx5q6OOkpNdGmjQqGG8rDumU1GxVUxdQiHF16+5LHGhtqRJDiIR6sqaYzd9XSn7VjHGExYX3ziifsSFIBhH1/qDg3ppDCC6MI4wwPYrPl5OWcrXtbUsJt0g2X+EF/x039lJIXfTbV0pOW89MOgSdw=
-    - sudo apt-get install jq
-    - wget -O ./codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r '.assets[0].browser_download_url')
+  - sudo apt-get install jq
+  - wget -O ./codacy-coverage-reporter-assembly-latest.jar $(curl -H 'Authorization: token 26e9ae04dea1f38ae3e56eb89481893bbfe8abcb' https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r '.assets[0].browser_download_url')
 after_success:
   - mvn jacoco:report
   - export CODACY_PROJECT_TOKEN='d105843572a740fbb4f0336bf3dfef19'
