@@ -17,7 +17,7 @@
 
 package com.globo.graylog.plugins.oauth2.realm;
 
-import com.globo.graylog.plugins.oauth2.models.UserBackStage;
+import com.globo.graylog.plugins.oauth2.models.UserOAuth;
 import com.globo.graylog.plugins.oauth2.rest.OAuth2Config;
 import org.apache.shiro.authc.AuthenticationException;
 import org.graylog2.plugin.database.ValidationException;
@@ -33,21 +33,12 @@ public class UserHelperTest {
 
     private UserHelper userHelper;
 
-    @Test
-    public void whenUserIsNotNullPreserveTheOriginalUser() {
-        userHelper = new UserHelper(null, null);
-        User mockedUser = mock(User.class);
-        User user = userHelper.saveUserIfNecessary(mockedUser, mock(OAuth2Config.class), mock(UserBackStage.class));
-
-        assertSame(user, mockedUser);
-    }
-
     @Test(expected = AuthenticationException.class)
     public void whenUserIsNullAndAutoCreateIsNotEnabled() {
         OAuth2Config configMock = mock(OAuth2Config.class);
         when(configMock.autoCreateUser()).thenReturn(false);
         userHelper = new UserHelper(null, null);
-        userHelper.saveUserIfNecessary(null, configMock, mock(UserBackStage.class));
+        userHelper.saveUserIfNecessary(null, configMock, mock(UserOAuth.class));
     }
 
     @Test(expected = AuthenticationException.class)
@@ -62,7 +53,7 @@ public class UserHelperTest {
         OAuth2Config configMock = mock(OAuth2Config.class);
         when(configMock.autoCreateUser()).thenReturn(true);
         userHelper = new UserHelper(userServiceMock, roleServiceMock);
-        userHelper.saveUserIfNecessary(null, configMock, mock(UserBackStage.class));
+        userHelper.saveUserIfNecessary(null, configMock, mock(UserOAuth.class));
     }
 
     @Test
@@ -76,7 +67,7 @@ public class UserHelperTest {
         OAuth2Config configMock = mock(OAuth2Config.class);
         when(configMock.autoCreateUser()).thenReturn(true);
         userHelper = new UserHelper(userServiceMock, roleServiceMock);
-        User savedUser = userHelper.saveUserIfNecessary(null, configMock, mock(UserBackStage.class));
+        User savedUser = userHelper.saveUserIfNecessary(null, configMock, mock(UserOAuth.class));
 
         assertSame(dummyUser, savedUser);
     }

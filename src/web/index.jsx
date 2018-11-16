@@ -24,7 +24,7 @@ PluginStore.register(new PluginManifest(packageJson, {
     {
       name: "oauth2",
       displayName: "OAuth2",
-      description: "authenticates users based on Oauth 2.0 with backstage",
+      description: "authenticates users based on Oauth 2.0",
       canBeDisabled: true,
       component: OAuth2Configuration,
     },

@@ -38,17 +38,15 @@ public abstract  class OAuth2Config {
 
     public static OAuth2Config defaultConfig() {
         return builder()
-                .name("Graylog")
                 .clientId("")
                 .clientSecret("")
-                .urlBackstage("")
-                .urlRedirect("")
+                .tokenServerUrl("")
+                .dataServerUrl("")
                 .autoCreateUser(false)
+                .defaultGroup("Reader")
                 .build();
     }
 
-    @JsonProperty("name")
-    public abstract String name();
 
     @JsonProperty("client_id")
     @Nullable
@@ -58,22 +56,24 @@ public abstract  class OAuth2Config {
     @Nullable
     public abstract String clientSecret();
 
-    @JsonProperty("url_backstage")
+    @JsonProperty("token_server_url")
     @Nullable
-    public abstract String urlBackstage();
+    public abstract String tokenServerUrl();
+
+    @JsonProperty("data_server_url")
+    @Nullable
+    public abstract String dataServerUrl();
 
     @JsonProperty("auto_create_user")
     public abstract boolean autoCreateUser();
 
-    @JsonProperty("url_redirect")
-    public abstract String urlRedirect();
+    @JsonProperty("default_group")
+    @Nullable
+    public abstract String defaultGroup();
 
     @AutoValue.Builder
     public static abstract class Builder {
         public abstract OAuth2Config build();
-
-        @JsonProperty("name")
-        public abstract Builder name(String name);
 
         @JsonProperty("client_id")
         public abstract Builder clientId(@Nullable String clientId);
@@ -81,14 +81,16 @@ public abstract  class OAuth2Config {
         @JsonProperty("client_secret")
         public abstract Builder clientSecret(@Nullable String clientSecret);
 
-        @JsonProperty("url_backstage")
-        public abstract Builder urlBackstage(@Nullable String urlBackstage);
+        @JsonProperty("token_server_url")
+        public abstract Builder tokenServerUrl(@Nullable String tokenServerUrl);
 
-        @JsonProperty("url_redirect")
-        public abstract Builder urlRedirect(@Nullable String urlRedirect);
+        @JsonProperty("data_server_url")
+        public abstract Builder dataServerUrl(@Nullable String dataServerUrl);
 
         @JsonProperty("auto_create_user")
         public abstract Builder autoCreateUser(boolean autoCreateUser);
 
+        @JsonProperty("default_group")
+        public abstract Builder defaultGroup(@Nullable String defaultGroup);
     }
 }

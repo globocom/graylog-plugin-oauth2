@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Set;
 
-public class UserBackStage {
+public class UserOAuth {
 
     @JsonProperty("name")
     private String name;
@@ -102,7 +102,7 @@ public class UserBackStage {
 
     @Override
     public String toString() {
-        return "UserBackStage{" +
+        return "UserOAuth{" +
                 "name='" + name + '\'' +
                 ", surName='" + surName + '\'' +
                 ", userName='" + userName + '\'' +

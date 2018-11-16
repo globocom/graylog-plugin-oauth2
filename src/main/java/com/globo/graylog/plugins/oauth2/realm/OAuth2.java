@@ -17,10 +17,11 @@
 
 package com.globo.graylog.plugins.oauth2.realm;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.globo.graylog.plugins.oauth2.models.AcessToken;
-import com.globo.graylog.plugins.oauth2.models.UserBackStage;
+import com.globo.graylog.plugins.oauth2.models.UserOAuth;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -47,7 +48,6 @@ public class OAuth2 {
 
     private static final Logger LOG = LoggerFactory.getLogger(OAuth2.class);
     private ObjectMapper mapper = new ObjectMapper();
-
     private HttpClient httpclient = HttpClients.createDefault();
 
     public String getCodeFromReferer(String referer) throws AuthenticationException {
@@ -69,7 +69,7 @@ public class OAuth2 {
     public AcessToken getAuthorization(
         String code, String clientId, String clientSecret, String url, String redirectUrl
     ) {
-        HttpPost httpPost = new HttpPost(url + "token");
+        HttpPost httpPost = new HttpPost(url);
         HttpResponse response = null;
 
         httpPost.setHeader("Authorization", getAuthorizationString(clientId, clientSecret));
@@ -95,8 +95,8 @@ public class OAuth2 {
         }
     }
 
-    public UserBackStage getUser(String url, AcessToken acessToken) {
-        HttpGet httpGet = new  HttpGet(url + "user");
+    public UserOAuth getUser(String url, AcessToken acessToken) {
+        HttpGet httpGet = new  HttpGet(url);
 
         httpGet.setHeader("Authorization", "Bearer " + acessToken.getAcessToken());
         HttpResponse response = null;
@@ -106,7 +106,7 @@ public class OAuth2 {
 
             BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             content = buffer.lines().collect(Collectors.joining("\n"));
-            return mapper.readValue(content, UserBackStage.class);
+            return mapper.readValue(content, UserOAuth.class);
         } catch (JsonParseException e) {
             LOG.error(e.toString());
             throw  new AuthenticationException("Wrong json format: " + content);
