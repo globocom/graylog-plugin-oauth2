@@ -17,7 +17,7 @@
 
 package com.globo.graylog.plugins.oauth2.realm;
 
-import com.globo.graylog.plugins.oauth2.models.UserBackStage;
+import com.globo.graylog.plugins.oauth2.models.UserOAuth;
 import com.globo.graylog.plugins.oauth2.rest.OAuth2Config;
 import org.apache.shiro.authc.AuthenticationException;
 import org.graylog2.database.NotFoundException;
@@ -37,6 +37,7 @@ public class UserHelper {
     private static final Logger LOG = LoggerFactory.getLogger(OAuth2Realm.class);
     private UserService userService;
     private RoleService roleService;
+    grouu
 
     @Inject
     public UserHelper(UserService userService, RoleService roleService) {
@@ -44,7 +45,7 @@ public class UserHelper {
         this.roleService = roleService;
     }
 
-    public User saveUserIfNecessary(User user, OAuth2Config config, UserBackStage oAuthUser) throws AuthenticationException {
+    public User saveUserIfNecessary(User user, OAuth2Config config, UserOAuth oAuthUser) throws AuthenticationException {
 
         if (user == null) {
             try {

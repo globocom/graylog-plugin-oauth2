@@ -18,7 +18,7 @@
 package com.globo.graylog.plugins.oauth2.realm;
 
 import com.globo.graylog.plugins.oauth2.models.AcessToken;
-import com.globo.graylog.plugins.oauth2.models.UserBackStage;
+import com.globo.graylog.plugins.oauth2.models.UserOAuth;
 import com.globo.graylog.plugins.oauth2.rest.OAuth2Config;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -63,7 +63,7 @@ public class OAuth2Realm extends AuthenticatingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         final OAuth2Config config = clusterConfigService.getOrDefault(OAuth2Config.class, OAuth2Config.defaultConfig());
         final String referer = getReferer((HttpHeadersToken) authenticationToken);
-        UserBackStage oAuthUser = getOAuthUser(referer, config);
+        UserOAuth oAuthUser = getOAuthUser(referer, config);
         User user = null;
 
         if (oAuthUser != null) {
@@ -82,7 +82,7 @@ public class OAuth2Realm extends AuthenticatingRealm {
 
     }
 
-    private UserBackStage getOAuthUser(String referer, OAuth2Config config) {
+    private UserOAuth getOAuthUser(String referer, OAuth2Config config) {
         String code = oAuth2.getCodeFromReferer(referer);
         AcessToken acessToken = oAuth2.getAuthorization(code, config.clientId(), config.clientSecret(), config.tokenServerUrl(), "http://localhost:8080/");
         return oAuth2.getUser(config.dataServerUrl(), acessToken);

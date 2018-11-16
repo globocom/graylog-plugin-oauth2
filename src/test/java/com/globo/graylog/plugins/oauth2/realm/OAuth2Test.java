@@ -18,7 +18,7 @@
 package com.globo.graylog.plugins.oauth2.realm;
 
 import com.globo.graylog.plugins.oauth2.models.AcessToken;
-import com.globo.graylog.plugins.oauth2.models.UserBackStage;
+import com.globo.graylog.plugins.oauth2.models.UserOAuth;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -134,7 +134,7 @@ public class OAuth2Test {
         when(httpClientMock.execute(any(HttpGet.class))).thenReturn(response);
         oAuth2.setHttpclient(httpClientMock);
 
-        UserBackStage user = oAuth2.getUser(
+        UserOAuth user = oAuth2.getUser(
                 "http://server.url/user/",
                 getAccessToken()
         );

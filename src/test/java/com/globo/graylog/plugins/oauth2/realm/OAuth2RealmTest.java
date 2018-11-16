@@ -18,7 +18,7 @@
 package com.globo.graylog.plugins.oauth2.realm;
 
 import com.globo.graylog.plugins.oauth2.models.AcessToken;
-import com.globo.graylog.plugins.oauth2.models.UserBackStage;
+import com.globo.graylog.plugins.oauth2.models.UserOAuth;
 import com.globo.graylog.plugins.oauth2.rest.OAuth2Config;
 import edu.emory.mathcs.backport.java.util.Collections;
 import org.apache.shiro.authc.AuthenticationException;
@@ -78,7 +78,7 @@ public class OAuth2RealmTest {
                 "MockedCode", "clientId", "clientSecret", "url server", "http://localhost:8080/")
         ).thenReturn(dummyToken);
 
-        UserBackStage dummyUserPlugin = new UserBackStage();
+        UserOAuth dummyUserPlugin = new UserOAuth();
         dummyUserPlugin.setEmail("user@email");
         when(oAuth2Mock.getUser("url redirect", dummyToken)).thenReturn(dummyUserPlugin);
 
