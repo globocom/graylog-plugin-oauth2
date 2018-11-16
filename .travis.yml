@@ -17,7 +17,7 @@ script:
   - mvn package -B
 before_install:
   - sudo apt-get install jq
-  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r '.assets[0].browser_download_url')
+  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl -H "Authorization: token $GT_TOKEN" https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r '.assets[0].browser_download_url')
 after_success:
   - mvn jacoco:report
   - export CODACY_PROJECT_TOKEN='d105843572a740fbb4f0336bf3dfef19'
@@ -43,6 +43,3 @@ deploy:
 notifications:
   slack:
     secure: EBbipA5EtWyU6uKcfVUNAFu7w+PRjWSDtCKt3IDI05LtswmmXMau28C3nKxv6Rd4rWoXiX1DZN1E0bwAC0bJXXpCiIJ2MhXRWgfDcZ4LJ6NF5oAbPekskkVB2tB/QdytLjB3UpuBMzwbFa46VA2LyfizoPPYQqbuGKN9oIHbPrHXTNISOzC01Zrkix6w7Bvk7zocAENX5GQmBR3z0iszwTPfHfHhhhhzssuuViuS7A+AsMoCRDRm/+bx1BPezkayWcQ9bA5gb4K7bMGGJ1YKNGsJZIOmcJ9uz/U6I5i/ztg1fYghh24CP9GNulMsbXBXiHwGGcYEdAYI8JJfAhWJNcegCk8jGSjtjsmvuOwY5dcKfn/BX5jl3BC2SqfFqkmgz0J7CDN9t3MzGDAbUZtSrVcykDmy+gjGqRsqMLesBgqz1W3nm3+CRhp3mHjTbWYbLj2hOtZ1APYvWXL54yU7bSpHVWfwdMMQZqUYSES+nE7crb8Wk67MkCPwZ2+vRWARVNRWnFyKUiDifUVlsBBTtQXgrWsm9Mvs+eMfSrO3OfswAYQ2eLvbDR1m1V+vg0Q+hBLiuYWUDW2quL3ehgUBIaHRC/CqRqMCrqSbaujReJWI1lMxM12/FCPfN+CBMHB+8bOzK2JA/uBPtTNX+h5SNVevmnvmao7Y5k7FneOt+mw=
-env:
-  global:
-    secure: N6MIz2WxpidmGAsxgdCfmYjmITERswd6F+Duv8LeUeC8L0gihFO9JZDrIhAlUbhc9hzHCD/dLC4v0gk8k7380RL8hKSWnYtuDtARenK/MIhnoG8Xs2nvN/I2OBSx9m24RPQS2fSB/zDjKLiDygPRaJDq/M2lUz1mrie4Cb3fTxhr/AqkPVmSJZbRmRf+e5kp5FN02/1p8gVJSXFhzqRITViZopHZz7joUYsAG9CAqcha2VJnl0/xBFJpMtzuVdBOJoGFOapZezW9fayWja2e2aiz7rYytaHU2e7/np8+YmKgw5M3K4vcCwmFz0O049cr2MEo6CV0SBzJPLLVukgHAt9vL7SuOPkf8JCTGc66oClLwoAai4sG+SVjFQtJCInZHDlfwQFM6blrl3AhDnW7363kz2+pyMJRYJx7qPK2D2DHqINjKJET/swoh/XarQPVX/YUDK7zpSLegIPgm5TDz+pPloTYfqQpwFCOYGVWwoVmywYEoL2K/jih85yUE9UHr9iedydyZxJCh4tdGZ27DI8hoPH4AmVqcEDVW4iEceJvX+dE9UWtq+Zu1iyPbkHGCMTxD4wcnmzroR4dP4W8Ee1V1SWCdqkq+TI+322CfC8HR6bKxepbjllOCwUFjk0HhrurqIxzkcbHpAyfFZ1t+nzOrtKD72ocH0nS1jOUHSU=
