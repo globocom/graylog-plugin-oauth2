@@ -24,6 +24,7 @@ If you are developing the plugin with graylog-server, you should follow these st
 * ln -s $YOURPLUGIN plugin/
 * npm install && npm start
 
+
 * import the module into graylog-project pom.xml
 
        <module>../graylog-project-repos/graylog-plugin-oauth2</module>
