@@ -34,7 +34,7 @@ If you are developing the plugin with graylog-server, you should follow these st
            <dependency>
              <groupId>com.globo</groupId>
                <artifactId>graylog-plugin-oauth2</artifactId>
-               <version>1.0.0-SNAPSHOT</version>
+               <version>0.0.2-SNAPSHOT</version>
            </dependency>
 
 ## Usage
