@@ -20,7 +20,7 @@ import Reflux from "reflux";
 import { Row, Col, Button, Alert } from "react-bootstrap";
 import { Input } from "components/bootstrap";
 
-import { DocumentTitle, PageHeader, Spinner } from "components/common";
+import { DocumentTitle, PageHeader, Spinner, DataTable} from "components/common";
 
 import StoreProvider from "injection/StoreProvider";
 const RolesStore = StoreProvider.getStore("Roles");
@@ -29,9 +29,10 @@ import ObjectUtils from "util/ObjectUtils";
 
 const OAuth2GroupMapping = React.createClass({
 
-
      componentDidMount() {
-          this.setState({ form: { group: "", role: "Reader"} })
+
+          this.result = [];
+          this.setState({ form: { group: "", role: "Reader"}, roles: [], result: []});
           RolesStore.loadRoles().done((roles) => {
             this.setState({ roles: roles.map((role) => role.name) });
           });
@@ -39,7 +40,8 @@ const OAuth2GroupMapping = React.createClass({
 
      _add(ev) {
         ev.preventDefault();
-        console.log(this.state.form);
+        this.state.result.push(this.state.form);
+        this.setState({ result:  this.state.result});
      },
 
      _setSetting(attribute, value) {
@@ -55,39 +57,82 @@ const OAuth2GroupMapping = React.createClass({
            this._setSetting(ev.target.name, ev.target.value);
      },
 
+     _headerCellFormatter(header) {
+         const className = (header === 'Actions' ? 'actions' : '');
+         return <th className={className}>{header}</th>;
+     },
+
+      _editButton(role) {
+
+        },
+
+      _deleteButton(role) {
+
+       },
+
+      _roleInfoFormatter(group) {
+          return (
+            <tr key={group.group}>
+              <td>{group.group}</td>
+              <td className="limited">{group.role}</td>
+              <td>
+                {this._editButton(group)}
+                <span key="space">&nbsp;</span>
+                {this._deleteButton(group)}
+              </td>
+            </tr>
+          );
+       },
+
     render() {
         let content;
         if (!this.state) {
           content = <Spinner />;
         } else {
+            const filterKeys = ['group', 'name'];
+            const headers = ['Group', 'Role', 'Actions'];
             const roles = this.state.roles.map((role) => <option key={"default-group-" + role} value={role}>{role}</option>);
             content = (
                 <Row>
-                        <form id="oauth-config-form" className="form-horizontal" onSubmit={this._add}>
                         <fieldset>
-                            <legend className="col-sm-12">2. Group Mapping</legend>
-                            <Col sm={6}>
-                            <Input type="text" id="group" name="group" labelClassName="col-sm-3"
-                             wrapperClassName="col-sm-9" label="Group Name"
-                             value={this.state.form.group} onChange={this._bindValue} required/>
-                            </Col>
-                            <Col sm={5}>
-                            <Input id="role" labelClassName="col-sm-3" wrapperClassName="col-sm-9" label="Role">
-                               <Row>
-                                 <Col sm={6}>
-                                   <select id="role" name="role" className="form-control" value={this.state.form.role}
-                                     onChange={this._bindValue} required>
-                                    {roles}
-                                   </select>
+                            <form id="oauth-config-form" className="form-horizontal" onSubmit={this._add}>
+                                <legend className="col-sm-12">2. Group Mapping</legend>
+                                <Col sm={6}>
+                                <Input type="text" id="group" name="group" labelClassName="col-sm-3"
+                                 wrapperClassName="col-sm-9" label="Group Name"
+                                 value={this.state.form.group} onChange={this._bindValue} required/>
+                                </Col>
+                                <Col sm={5}>
+                                <Input id="role" labelClassName="col-sm-3" wrapperClassName="col-sm-9" label="Role">
+                                   <Row>
+                                     <Col sm={6}>
+                                       <select id="role" name="role" className="form-control" value={this.state.form.role}
+                                         onChange={this._bindValue} required>
+                                        {roles}
+                                       </select>
+                                     </Col>
+                                   </Row>
+                                </Input>
+                                </Col>
+                                 <Col>
+                                    <Button type="submit" bsStyle="success">Add</Button>
                                  </Col>
-                               </Row>
-                            </Input>
-                            </Col>
-                             <Col>
-                                <Button type="submit" bsStyle="success">Add</Button>
-                             </Col>
+                            </form>
                         </fieldset>
-                        </form>
+                        <fieldset>
+                             <div>
+                                <DataTable id="role-list"
+                                           className="table-hover"
+                                           headers={headers}
+                                           headerCellFormatter={this._headerCellFormatter}
+                                           sortByKey={'group'}
+                                           rows={this.state.result}
+                                           filterBy="Group"
+                                           dataRowFormatter={this._roleInfoFormatter}
+                                           filterLabel="Filter Group"
+                                           filterKeys={filterKeys}/>
+                             </div>
+                        </fieldset>
                 </Row>
             )
         }
