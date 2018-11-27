@@ -35,7 +35,7 @@ const OAuth2Configuration = React.createClass({
 
    mixins: [
       Reflux.connect(OAuth2Store),
-    ],
+   ],
 
     getInitialState() {
         return {

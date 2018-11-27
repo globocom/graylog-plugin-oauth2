@@ -30,6 +30,7 @@ public class OAuth2Permissions implements PluginPermissions {
     public static final String CONFIG_READ = "oauthconfig:read";
     public static final String CONFIG_UPDATE = "oauthconfig:edit";
 
+
     private final ImmutableSet<Permission> permissions = ImmutableSet.of(
             create(CONFIG_READ, "Read Oauth authenticator config"),
             create(CONFIG_UPDATE, "Update Oauth authenticator config")

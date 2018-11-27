@@ -72,6 +72,28 @@ const OAuth2Store = Reflux.createStore({
 
      OAuth2Actions.saveConfig.promise(promise);
   },
+
+  groups() {
+    const promise = fetch("GET", this._url("/oauth/group"));
+
+    promise.then((response) => {
+      this.trigger({ groups: response });
+    }, this._errorHandler("Fetching groups failed", "Could not groups"));
+
+    OAuth2Actions.groups.promise(promise);
+
+  },
+
+  saveGroup(group) {
+     const promise = fetch("POST", this._url("/oauth/group"), group);
+
+     promise.then((response) => {
+      this.trigger({ group: response });
+      UserNotification.success("Group was saved successfully");
+     }, this._errorHandler("Updating group failed", "Unable to update group"));
+
+     OAuth2Actions.saveGroup.promise(promise);
+  }
 });
 
 export default OAuth2Store;

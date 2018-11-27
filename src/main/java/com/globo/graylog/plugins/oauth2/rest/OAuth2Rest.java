@@ -33,8 +33,10 @@ import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
+import java.util.Set;
 
-@Api(value = "Globo/oauth", description = "Manage Globo Oauth")
+@Api(value = "OAuth", description = "Manage OAuth")
 @Path("/oauth")
 @Produces(MediaType.APPLICATION_JSON)
 @RequiresAuthentication
@@ -67,5 +69,30 @@ public class OAuth2Rest extends RestResource implements PluginRestResource {
         clusterConfigService.write(cleanConfig);
 
         return config;
+    }
+
+    @ApiOperation(value = "Get all groups")
+    @GET
+    @RequiresPermissions(OAuth2Permissions.CONFIG_READ)
+    @Path("/group")
+    public GroupRole getAllGroup() {
+        final GroupRole group = clusterConfigService.getOrDefault(GroupRole.class,
+                GroupRole.defaultConfig());
+
+        return group.toBuilder().build();
+    }
+
+    @ApiOperation(value = "Saving group")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @POST
+    @RequiresPermissions(OAuth2Permissions.CONFIG_UPDATE)
+    @AuditEvent(type = OAuth2AuditEventTypes.CONFIG_UPDATE)
+    @Path("/group")
+    public GroupRole postGroup(@ApiParam(name = "group", required = true) @NotNull GroupRole group) {
+        final GroupRole cleanGroup = group.toBuilder().build();
+
+        clusterConfigService.write(cleanGroup);
+
+        return group;
     }
 }

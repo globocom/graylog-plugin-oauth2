@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_OAuth2Config.Builder.class)
 @JsonAutoDetect
-public abstract  class OAuth2Config {
+public abstract class OAuth2Config {
 
     public static Builder builder() {
         return new AutoValue_OAuth2Config.Builder();

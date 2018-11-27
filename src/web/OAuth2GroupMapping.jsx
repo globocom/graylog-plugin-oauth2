@@ -22,6 +22,9 @@ import { Input } from "components/bootstrap";
 
 import { DocumentTitle, PageHeader, Spinner, DataTable} from "components/common";
 
+import OAuth2Actions from "OAuth2Actions";
+import OAuth2Store from "OAuth2Store";
+
 import StoreProvider from "injection/StoreProvider";
 const RolesStore = StoreProvider.getStore("Roles");
 
@@ -29,8 +32,13 @@ import ObjectUtils from "util/ObjectUtils";
 
 const OAuth2GroupMapping = React.createClass({
 
+     mixins: [
+           Reflux.connect(OAuth2Store),
+    ],
+
      componentDidMount() {
 
+          OAuth2Actions.groups();
           this.result = [];
           this.setState({ form: { group: "", role: "Reader"}, roles: [], result: []});
           RolesStore.loadRoles().done((roles) => {
@@ -40,8 +48,7 @@ const OAuth2GroupMapping = React.createClass({
 
      _add(ev) {
         ev.preventDefault();
-        this.state.result.push(this.state.form);
-        this.setState({ result:  this.state.result});
+        OAuth2Actions.saveGroup(this.state.form);
      },
 
      _setSetting(attribute, value) {
@@ -63,11 +70,11 @@ const OAuth2GroupMapping = React.createClass({
      },
 
       _editButton(role) {
-
-        },
+           return (<Button key="edit" bsSize="xsmall" bsStyle="info" onClick={() => this._showEditRole(role)} title="Edit group">Edit</Button>);
+       },
 
       _deleteButton(role) {
-
+           return (<Button key="delete" bsSize="xsmall" bsStyle="primary" onClick={() => this._deleteRole(role)} title="Delete group">Delete</Button>);
        },
 
       _roleInfoFormatter(group) {
@@ -86,10 +93,9 @@ const OAuth2GroupMapping = React.createClass({
 
     render() {
         let content;
-        if (!this.state) {
+        if (!this.state.groups) {
           content = <Spinner />;
         } else {
-            const filterKeys = ['group', 'name'];
             const headers = ['Group', 'Role', 'Actions'];
             const roles = this.state.roles.map((role) => <option key={"default-group-" + role} value={role}>{role}</option>);
             content = (
@@ -120,18 +126,18 @@ const OAuth2GroupMapping = React.createClass({
                             </form>
                         </fieldset>
                         <fieldset>
-                             <div>
-                                <DataTable id="role-list"
-                                           className="table-hover"
-                                           headers={headers}
-                                           headerCellFormatter={this._headerCellFormatter}
-                                           sortByKey={'group'}
-                                           rows={this.state.result}
-                                           filterBy="Group"
-                                           dataRowFormatter={this._roleInfoFormatter}
-                                           filterLabel="Filter Group"
-                                           filterKeys={filterKeys}/>
-                             </div>
+                              <div className="form-group">
+                                   <DataTable id="role-list"
+                                               className="table-hover"
+                                               headers={headers}
+                                               headerCellFormatter={this._headerCellFormatter}
+                                               sortByKey={'group'}
+                                               rows={new Array(this.state.groups)}
+                                               filterBy="Group"
+                                               dataRowFormatter={this._roleInfoFormatter}
+                                               filterLabel="Filter"
+                                               filterKeys={[]}/>
+                               </div>
                         </fieldset>
                 </Row>
             )
