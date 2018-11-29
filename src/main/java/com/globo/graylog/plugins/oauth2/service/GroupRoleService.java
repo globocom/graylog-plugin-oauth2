@@ -18,14 +18,17 @@
 package com.globo.graylog.plugins.oauth2.service;
 
 import org.graylog2.plugin.database.PersistedService;
+import org.graylog2.plugin.database.ValidationException;
 
 import java.util.List;
 
 public interface GroupRoleService extends PersistedService {
 
-    GroupRole load(GroupRole groupRole);
+    GroupRoleInterface load(GroupRoleInterface groupRoleInterface);
 
-    List<GroupRole> loadAll(GroupRole groupRoles);
+    List<GroupRoleInterface> loadAll();
 
-    GroupRole save(GroupRole groupRoles);
+    String save(GroupRoleInterface groupRolesInterface) throws ValidationException;
+
+    void remove(String group);
 }

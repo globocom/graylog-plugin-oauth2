@@ -22,6 +22,7 @@ const OAuth2Actions = Reflux.createActions({
   saveConfig: { asyncResult: true },
   groups: { asyncResult: true },
   saveGroup: { asyncResult: true },
+  deleteGroup: { asyncResult: true },
 });
 
 export default OAuth2Actions;

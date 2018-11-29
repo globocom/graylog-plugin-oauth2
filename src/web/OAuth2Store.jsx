@@ -93,7 +93,18 @@ const OAuth2Store = Reflux.createStore({
      }, this._errorHandler("Updating group failed", "Unable to update group"));
 
      OAuth2Actions.saveGroup.promise(promise);
-  }
+  },
+
+  deleteGroup(group) {
+       const promise = fetch("DELETE", this._url("/oauth/group?group=" + group));
+
+       promise.then((response) => {
+        this.trigger({ group: response });
+        UserNotification.success("Group was removed successfully");
+       }, this._errorHandler("Removing group failed", "Unable to remove group"));
+
+       OAuth2Actions.deleteGroup.promise(promise);
+    }
 });
 
 export default OAuth2Store;

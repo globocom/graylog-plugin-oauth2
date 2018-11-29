@@ -19,7 +19,7 @@ package com.globo.graylog.plugins.oauth2.service;
 
 import org.graylog2.plugin.database.Persisted;
 
-public interface GroupRole extends Persisted {
+public interface GroupRoleInterface extends Persisted {
 
     String getGroup();
 
@@ -28,4 +28,5 @@ public interface GroupRole extends Persisted {
     String getRole();
 
     void setRole(String role);
+
 }

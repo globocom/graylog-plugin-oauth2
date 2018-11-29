@@ -69,27 +69,35 @@ const OAuth2GroupMapping = React.createClass({
          return <th className={className}>{header}</th>;
      },
 
-      _editButton(role) {
+      _editButton(group) {
            return (<Button key="edit" bsSize="xsmall" bsStyle="info" onClick={() => this._showEditRole(role)} title="Edit group">Edit</Button>);
        },
 
-      _deleteButton(role) {
-           return (<Button key="delete" bsSize="xsmall" bsStyle="primary" onClick={() => this._deleteRole(role)} title="Delete group">Delete</Button>);
-       },
+      _deleteButton(group) {
+           return (<Button key="delete" bsSize="xsmall" bsStyle="primary" onClick={() => this._deleteGroup(group)} title="Delete group">Delete</Button>);
+      },
 
+      _reload() {
+      },
+
+      _deleteGroup(group) {
+          if (window.confirm(`Do you really want to delete group ${group}?`)) {
+                OAuth2Actions.deleteGroup(group).then(this._reload);
+          }
+      },
       _roleInfoFormatter(group) {
           return (
             <tr key={group.group}>
               <td>{group.group}</td>
               <td className="limited">{group.role}</td>
               <td>
-                {this._editButton(group)}
+                {this._editButton(group.group)}
                 <span key="space">&nbsp;</span>
-                {this._deleteButton(group)}
+                {this._deleteButton(group.group)}
               </td>
             </tr>
           );
-       },
+      },
 
     render() {
         let content;
@@ -132,7 +140,7 @@ const OAuth2GroupMapping = React.createClass({
                                                headers={headers}
                                                headerCellFormatter={this._headerCellFormatter}
                                                sortByKey={'group'}
-                                               rows={new Array(this.state.groups)}
+                                               rows={this.state.groups}
                                                filterBy="Group"
                                                dataRowFormatter={this._roleInfoFormatter}
                                                filterLabel="Filter"

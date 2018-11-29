@@ -23,6 +23,7 @@ import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
 import org.graylog2.database.MongoConnection;
 import org.graylog2.database.PersistedServiceImpl;
+import org.graylog2.plugin.database.ValidationException;
 import org.graylog2.security.AccessToken;
 import org.graylog2.security.AccessTokenImpl;
 import org.slf4j.Logger;
@@ -40,41 +41,36 @@ public class GroupRoleServiceImpl extends PersistedServiceImpl implements GroupR
     }
 
     @Override
-    public GroupRole load(GroupRole groupRole) {
-        DBObject query = new BasicDBObject();
-        query.put(AccessTokenImpl.TOKEN, groupRole);
-        final List<DBObject> objects = query(AccessTokenImpl.class, query);
-
-        if (objects.isEmpty()) {
-            return null;
-        }
-        if (objects.size() > 1) {
-            LOG.error("Multiple access tokens found, this is a serious bug.");
-            throw new IllegalStateException("Access tokens collection has no unique index!");
-        }
-        final DBObject tokenObject = objects.get(0);
-        final Object id = tokenObject.get("_id");
+    public GroupRoleInterface load(GroupRoleInterface groupRoleInterface) {
         return null;
     }
 
     @Override
-    public List<GroupRole> loadAll(GroupRole groupRoles) {
+    public List<GroupRoleInterface> loadAll() {
         DBObject query = new BasicDBObject();
-        query.put(AccessTokenImpl.USERNAME, groupRoles);
-        final List<DBObject> objects = query(AccessTokenImpl.class, query);
-        List<AccessToken> tokens = Lists.newArrayList();
-        for (DBObject tokenObject : objects) {
-            final Object id = tokenObject.get("_id");
-            final AccessToken accessToken = new AccessTokenImpl((ObjectId) id, tokenObject.toMap());
-            tokens.add(accessToken);
+        final List<DBObject> objects = query(GroupRoleImpl.class, query);
+
+        List<GroupRoleInterface> groups = Lists.newArrayList();
+        for (DBObject groupObject : objects) {
+            final Object id = groupObject.get("_id");
+            final GroupRoleImpl group = new GroupRoleImpl((ObjectId) id, groupObject.toMap());
+            groups.add(group);
         }
-        return null;
+
+        return groups;
     }
 
     @Override
-    public GroupRole save(GroupRole groupRole){
-        // make sure we cannot overwrite an existing access token
-        collection(AccessTokenImpl.class).createIndex(new BasicDBObject(AccessTokenImpl.TOKEN, 1), new BasicDBObject("unique", true));
-        return null;
+    public String save(GroupRoleInterface groupRoleInterface) throws ValidationException {
+        collection(GroupRoleImpl.class).createIndex(new BasicDBObject(GroupRoleImpl.GROUP, 1), new BasicDBObject("unique", true));
+        return super.save(groupRoleInterface);
+    }
+
+    @Override
+    public void remove(String group) {
+        DBObject query = new BasicDBObject();
+        query.put(GroupRoleImpl.GROUP, group);
+
+        destroy(query, "group_role");
     }
 }

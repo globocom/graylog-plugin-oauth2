@@ -18,34 +18,30 @@
 package com.globo.graylog.plugins.oauth2.service;
 
 
-import com.google.common.collect.Maps;
+
 import org.bson.types.ObjectId;
 import org.graylog2.database.CollectionName;
 import org.graylog2.database.PersistedImpl;
-import org.graylog2.database.validators.FilledStringValidator;
 import org.graylog2.plugin.database.validators.Validator;
 
 import java.util.Map;
 
 @CollectionName("group_role")
-public class GroupRoleImpl extends PersistedImpl implements GroupRole {
+public class GroupRoleImpl extends PersistedImpl implements GroupRoleInterface {
 
     public static final String GROUP = "group";
     public static final String ROLE = "role";
 
     public GroupRoleImpl(Map<String, Object> fields) {
-    super(fields);
+        super(fields);
     }
 
     public GroupRoleImpl(ObjectId id, Map<String, Object> fields) {
-    super(id, fields);
+        super(id, fields);
     }
 
     public Map<String, Validator> getValidations() {
-        Map<String, Validator> validations = Maps.newHashMap();
-        validations.put("group", new FilledStringValidator());
-        validations.put("name", new FilledStringValidator());
-        return validations;
+        return null;
     }
 
     @Override
