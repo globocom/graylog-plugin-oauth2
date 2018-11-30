@@ -41,11 +41,6 @@ public class GroupRoleServiceImpl extends PersistedServiceImpl implements GroupR
     }
 
     @Override
-    public GroupRoleInterface load(GroupRoleInterface groupRoleInterface) {
-        return null;
-    }
-
-    @Override
     public List<GroupRoleInterface> loadAll() {
         DBObject query = new BasicDBObject();
         final List<DBObject> objects = query(GroupRoleImpl.class, query);

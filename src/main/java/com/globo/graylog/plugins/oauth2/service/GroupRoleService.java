@@ -24,8 +24,6 @@ import java.util.List;
 
 public interface GroupRoleService extends PersistedService {
 
-    GroupRoleInterface load(GroupRoleInterface groupRoleInterface);
-
     List<GroupRoleInterface> loadAll();
 
     String save(GroupRoleInterface groupRolesInterface) throws ValidationException;
