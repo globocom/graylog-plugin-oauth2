@@ -48,7 +48,7 @@ const OAuth2GroupMapping = React.createClass({
 
      _add(ev) {
         ev.preventDefault();
-        OAuth2Actions.saveGroup(this.state.form);
+        OAuth2Actions.saveGroup(this.state.form).then(this._reload);
      },
 
      _setSetting(attribute, value) {
@@ -65,19 +65,19 @@ const OAuth2GroupMapping = React.createClass({
      },
 
      _headerCellFormatter(header) {
-         const className = (header === 'Actions' ? 'actions' : '');
+         const className = (header === "Action" ? "action" : "");
          return <th className={className}>{header}</th>;
      },
-
-      _editButton(group) {
-           return (<Button key="edit" bsSize="xsmall" bsStyle="info" onClick={() => this._showEditRole(role)} title="Edit group">Edit</Button>);
-       },
 
       _deleteButton(group) {
            return (<Button key="delete" bsSize="xsmall" bsStyle="primary" onClick={() => this._deleteGroup(group)} title="Delete group">Delete</Button>);
       },
 
       _reload() {
+          const promise = OAuth2Actions.groups();
+          promise.then((group) => {
+                this.setState({ groups: group });
+          });
       },
 
       _deleteGroup(group) {
@@ -91,8 +91,6 @@ const OAuth2GroupMapping = React.createClass({
               <td>{group.group}</td>
               <td className="limited">{group.role}</td>
               <td>
-                {this._editButton(group.group)}
-                <span key="space">&nbsp;</span>
                 {this._deleteButton(group.group)}
               </td>
             </tr>
@@ -104,7 +102,7 @@ const OAuth2GroupMapping = React.createClass({
         if (!this.state.groups) {
           content = <Spinner />;
         } else {
-            const headers = ['Group', 'Role', 'Actions'];
+            const headers = ["Group", "Role", "Action"];
             const roles = this.state.roles.map((role) => <option key={"default-group-" + role} value={role}>{role}</option>);
             content = (
                 <Row>
@@ -139,7 +137,7 @@ const OAuth2GroupMapping = React.createClass({
                                                className="table-hover"
                                                headers={headers}
                                                headerCellFormatter={this._headerCellFormatter}
-                                               sortByKey={'group'}
+                                               sortByKey={"group"}
                                                rows={this.state.groups}
                                                filterBy="Group"
                                                dataRowFormatter={this._roleInfoFormatter}

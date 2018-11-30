@@ -15,7 +15,7 @@
  * along with Foobar. If not, see <https://www.gnu.org/licenses/>
  */
 
-package com.globo.graylog.plugins.oauth2.rest;
+package com.globo.graylog.plugins.oauth2.service;
 
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;

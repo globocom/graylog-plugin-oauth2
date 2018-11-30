@@ -19,10 +19,7 @@ package com.globo.graylog.plugins.oauth2.rest;
 
 import com.globo.graylog.plugins.oauth2.audit.OAuth2AuditEventTypes;
 import com.globo.graylog.plugins.oauth2.permissions.OAuth2Permissions;
-import com.globo.graylog.plugins.oauth2.service.GroupRoleImpl;
-import com.globo.graylog.plugins.oauth2.service.GroupRoleInterface;
-import com.globo.graylog.plugins.oauth2.service.GroupRoleService;
-import com.globo.graylog.plugins.oauth2.service.GroupRoleServiceImpl;
+import com.globo.graylog.plugins.oauth2.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
