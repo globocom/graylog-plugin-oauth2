@@ -104,9 +104,9 @@ public class UserHelper {
     }
 
     public String getRole(String group) {
-        String roleToAdd = "";
+        String roleToAdd = group != null ? group : "Reader";
         try{
-            Role role = roleService.loadAllLowercaseNameMap().get(group.toLowerCase());
+            Role role = roleService.loadAllLowercaseNameMap().get(roleToAdd.toLowerCase());
             if (role != null) {
                 roleToAdd = role.getId();
             }

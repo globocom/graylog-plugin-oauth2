@@ -19,6 +19,7 @@ package com.globo.graylog.plugins.oauth2.realm;
 
 import com.globo.graylog.plugins.oauth2.models.UserOAuth;
 import com.globo.graylog.plugins.oauth2.rest.OAuth2Config;
+import com.globo.graylog.plugins.oauth2.service.GroupRoleServiceImpl;
 import org.apache.shiro.authc.AuthenticationException;
 import org.graylog2.plugin.database.ValidationException;
 import org.graylog2.plugin.database.users.User;
@@ -37,7 +38,7 @@ public class UserHelperTest {
     public void whenUserIsNullAndAutoCreateIsNotEnabled() {
         OAuth2Config configMock = mock(OAuth2Config.class);
         when(configMock.autoCreateUser()).thenReturn(false);
-        userHelper = new UserHelper(null, null);
+        userHelper = new UserHelper(null, null, null);
         userHelper.saveUserIfNecessary(null, configMock, mock(UserOAuth.class));
     }
 
@@ -49,10 +50,12 @@ public class UserHelperTest {
         when(userServiceMock.save(any())).thenThrow(new ValidationException("Invalid user"));
 
         RoleService roleServiceMock = mock(RoleService.class);
+        GroupRoleServiceImpl groupRoleServiceMock = mock(GroupRoleServiceImpl.class);
 
         OAuth2Config configMock = mock(OAuth2Config.class);
         when(configMock.autoCreateUser()).thenReturn(true);
-        userHelper = new UserHelper(userServiceMock, roleServiceMock);
+
+        userHelper = new UserHelper(userServiceMock, roleServiceMock, groupRoleServiceMock);
         userHelper.saveUserIfNecessary(null, configMock, mock(UserOAuth.class));
     }
 
@@ -63,10 +66,13 @@ public class UserHelperTest {
         when(userServiceMock.create()).thenReturn(dummyUser);
 
         RoleService roleServiceMock = mock(RoleService.class);
+        GroupRoleServiceImpl groupRoleServiceMock = mock(GroupRoleServiceImpl.class);
+
 
         OAuth2Config configMock = mock(OAuth2Config.class);
         when(configMock.autoCreateUser()).thenReturn(true);
-        userHelper = new UserHelper(userServiceMock, roleServiceMock);
+
+        userHelper = new UserHelper(userServiceMock, roleServiceMock, groupRoleServiceMock);
         User savedUser = userHelper.saveUserIfNecessary(null, configMock, mock(UserOAuth.class));
 
         assertSame(dummyUser, savedUser);
