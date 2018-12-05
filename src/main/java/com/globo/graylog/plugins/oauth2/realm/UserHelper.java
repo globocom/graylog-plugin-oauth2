@@ -55,27 +55,28 @@ public class UserHelper {
     public User saveUserIfNecessary(User user, OAuth2Config config, UserOAuth oAuthUser) throws AuthenticationException {
 
         Set<String> roles = new HashSet<>();
+        User userToSave = user;
 
         if (user == null) {
             try {
-                user = userService.create();
+                userToSave = userService.create();
             } catch (NullPointerException e){
                 throw new AuthenticationException("Unable to create an user object.");
             }
         }
 
-        user.setName(oAuthUser.getEmail());
-        user.setExternal(true);
-        user.setFullName(oAuthUser.getName() + " " + oAuthUser.getSurName());
-        user.setEmail(oAuthUser.getEmail());
-        user.setPassword("discovery");
-        user.setPermissions(Collections.emptyList());
+        userToSave.setName(oAuthUser.getEmail());
+        userToSave.setExternal(true);
+        userToSave.setFullName(oAuthUser.getName() + " " + oAuthUser.getSurName());
+        userToSave.setEmail(oAuthUser.getEmail());
+        userToSave.setPassword("discovery");
+        userToSave.setPermissions(Collections.emptyList());
 
         String defaultGroup = config.defaultGroup();
         List<GroupRoleInterface> groups = groupRoleService.loadAll();
 
         if (groups.isEmpty() || oAuthUser.getGroups().isEmpty()){
-            user.setRoleIds(Collections.singleton(getRole(defaultGroup)));
+            userToSave.setRoleIds(Collections.singleton(getRole(defaultGroup)));
         } else {
             for (GroupRoleInterface group : groups) {
                 for(String groupUser: oAuthUser.getGroups()) {
@@ -87,33 +88,34 @@ public class UserHelper {
         }
 
         if (roles.isEmpty()) {
-            user.setRoleIds(Collections.singleton(getRole(defaultGroup)));
+            userToSave.setRoleIds(Collections.singleton(getRole(defaultGroup)));
         } else {
-            user.setRoleIds(roles);
+            userToSave.setRoleIds(roles);
         }
 
         try {
-            userService.save(user);
-            return user;
+            userService.save(userToSave);
+            return userToSave;
         } catch (ValidationException e) {
-            LOG.error("Unable to save user {}", user, e);
+            LOG.error("Unable to save user {}", userToSave, e);
             throw new AuthenticationException("Unable to save the user on the local database");
         }
 
     }
 
     public String getRole(String group) {
+        String roleToAdd = "";
         try{
             Role role = roleService.loadAllLowercaseNameMap().get(group.toLowerCase());
             if (role != null) {
-                group = role.getId();
+                roleToAdd = role.getId();
             }
         }  catch (NotFoundException e) {
             LOG.error("Unable to retrieve roles, giving user reader role");
-            group = roleService.getReaderRoleObjectId();
+            roleToAdd = roleService.getReaderRoleObjectId();
         }
 
-        return group;
+        return roleToAdd;
     }
 
     public void getRolesIds(Set<String> roles, GroupRoleInterface group) {

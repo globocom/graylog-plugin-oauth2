@@ -24,16 +24,11 @@ import org.bson.types.ObjectId;
 import org.graylog2.database.MongoConnection;
 import org.graylog2.database.PersistedServiceImpl;
 import org.graylog2.plugin.database.ValidationException;
-import org.graylog2.security.AccessToken;
-import org.graylog2.security.AccessTokenImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.List;
 
 public class GroupRoleServiceImpl extends PersistedServiceImpl implements GroupRoleService {
-    private static final Logger LOG = LoggerFactory.getLogger(GroupRoleServiceImpl.class);
 
     @Inject
     public GroupRoleServiceImpl(MongoConnection mongoConnection) {

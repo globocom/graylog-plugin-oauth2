@@ -19,11 +19,13 @@ Restart `graylog-server` and you are done.
 
 If you are developing the plugin with graylog-server, you should follow these steps:
 
-* import the module into graylog-project pom.xml
+  * import the module into graylog-project pom.xml
+
 
        <module>../graylog-project-repos/graylog-plugin-oauth2</module>
 
-* import the jar into graylog-project pom.xml
+  * import the jar into graylog-project pom.xml
+
 
            <dependency>
              <groupId>com.globo</groupId>
@@ -40,11 +42,11 @@ Works only with Authentication code.
 
 This project is using Maven 3 and requires Java 8 or higher.
 
-* Clone this repository.
-* Run `mvn package` to build a JAR file.
-* Optional: Run `mvn jdeb:jdeb` and `mvn rpm:rpm` to create a DEB and RPM package respectively.
-* Copy generated JAR file in target directory to your Graylog plugin directory.
-* Restart the Graylog.
+  * Clone this repository.
+  * Run `mvn package` to build a JAR file.
+  * Optional: Run `mvn jdeb:jdeb` and `mvn rpm:rpm` to create a DEB and RPM package respectively.
+  * Copy generated JAR file in target directory to your Graylog plugin directory.
+  * Restart the Graylog.
 
 ## Join Us
 
