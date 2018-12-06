@@ -8,7 +8,7 @@ This plugins adds Oauth2 capabilities to Graylog. It supports automatic login an
 
 ## Installation
 
-[Download the plugin](https://github.com/none/releases)
+[Download the plugin](https://github.com/globocom/graylog-plugin-oauth2/releases)
 and place the `.jar` file in your Graylog plugin directory. The plugin directory
 is the `plugins/` folder relative from your `graylog-server` directory by default
 and can be configured in your `graylog.conf` file.
