@@ -4,7 +4,7 @@
 
 This plugins adds Oauth2 capabilities to Graylog. It supports automatic login and user account creation based on Oauth 2.0.
 
-**Required Graylog version:** 2.4 and later
+**Required Graylog version:** 2.5 and later
 
 ## Installation
 
@@ -19,18 +19,16 @@ Restart `graylog-server` and you are done.
 
 If you are developing the plugin with graylog-server, you should follow these steps:
 
-  * import the module into graylog-project pom.xml
-
+* import the module into graylog-project pom.xml
 
        <module>../graylog-project-repos/graylog-plugin-oauth2</module>
 
-  * import the jar into graylog-project pom.xml
-
+* import the jar into graylog-project pom.xml
 
            <dependency>
              <groupId>com.globo</groupId>
                <artifactId>graylog-plugin-oauth2</artifactId>
-               <version>1.0.0-SNAPSHOT</version>
+               <version>0.0.2-SNAPSHOT</version>
            </dependency>
 
 ## Usage
