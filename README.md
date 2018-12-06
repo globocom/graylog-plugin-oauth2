@@ -4,7 +4,7 @@
 
 This plugins adds Oauth2 capabilities to Graylog. It supports automatic login and user account creation based on Oauth 2.0.
 
-**Required Graylog version:** 2.4 and later
+**Required Graylog version:** 2.5 and later
 
 ## Installation
 
