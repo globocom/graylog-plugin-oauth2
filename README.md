@@ -19,11 +19,6 @@ Restart `graylog-server` and you are done.
 
 If you are developing the plugin with graylog-server, you should follow these steps:
 
- 1. git clone https://github.com/Graylog2/graylog2-server.git
- 2. cd graylog2-server/graylog2-web-interface
- 3. ln -s $YOURPLUGIN plugin/
- 4. npm install && npm start
-
 * import the module into graylog-project pom.xml
 
        <module>../graylog-project-repos/graylog-plugin-oauth2</module>
@@ -33,7 +28,7 @@ If you are developing the plugin with graylog-server, you should follow these st
            <dependency>
              <groupId>com.globo</groupId>
                <artifactId>graylog-plugin-oauth2</artifactId>
-               <version>0.0.2-SNAPSHOT</version>
+               <version>0.0.3-SNAPSHOT</version>
            </dependency>
 
 ## Usage
@@ -45,11 +40,11 @@ Works only with Authentication code.
 
 This project is using Maven 3 and requires Java 8 or higher.
 
-* Clone this repository.
-* Run `mvn package` to build a JAR file.
-* Optional: Run `mvn jdeb:jdeb` and `mvn rpm:rpm` to create a DEB and RPM package respectively.
-* Copy generated JAR file in target directory to your Graylog plugin directory.
-* Restart the Graylog.
+  * Clone this repository.
+  * Run `mvn package` to build a JAR file.
+  * Optional: Run `mvn jdeb:jdeb` and `mvn rpm:rpm` to create a DEB and RPM package respectively.
+  * Copy generated JAR file in target directory to your Graylog plugin directory.
+  * Restart the Graylog.
 
 ## Join Us
 

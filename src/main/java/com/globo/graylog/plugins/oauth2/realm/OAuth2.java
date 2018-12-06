@@ -17,7 +17,6 @@
 
 package com.globo.graylog.plugins.oauth2.realm;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.globo.graylog.plugins.oauth2.models.AcessToken;

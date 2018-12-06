@@ -21,7 +21,7 @@ import OAuth2Actions from "OAuth2Actions";
 
 import UserNotification from "util/UserNotification";
 import URLUtils from "util/URLUtils";
-import fetch from "logic/rest/FetchProvider";
+import fetch, { Builder } from "logic/rest/FetchProvider";
 
 const urlPrefix = "/plugins/com.globo.graylog.plugins.oauth2";
 
@@ -63,15 +63,66 @@ const OAuth2Store = Reflux.createStore({
   },
 
   saveConfig(config) {
-    const promise = fetch("PUT", this._url("/oauth"), config);
 
-    promise.then((response) => {
+    const promise = new Builder("PUT", this._url("/oauth"))
+        .authenticated()
+        .setHeader("X-Requested-By", this._url("/oauth"))
+        .json(config)
+        .build()
+
+      promise.then((response) => {
       this.trigger({ config: response });
       UserNotification.success("Oauth2 configuration was updated successfully");
     }, this._errorHandler("Updating Oauth2 config failed", "Unable to update Oauth2 authenticator config"));
 
      OAuth2Actions.saveConfig.promise(promise);
   },
+
+  groups() {
+    const promise = fetch("GET", this._url("/oauth/group"));
+
+    promise.then((response) => {
+      this.trigger({ groups: response });
+    }, this._errorHandler("Fetching groups failed", "Could not groups"));
+
+    OAuth2Actions.groups.promise(promise);
+
+  },
+
+  saveGroup(group) {
+
+     const promise = new Builder("POST", this._url("/oauth/group"))
+             .authenticated()
+             .setHeader("X-Requested-By", this._url("/oauth/group"))
+             .json(group)
+             .build()
+
+     promise.then((response) => {
+      this.trigger({ group: response });
+      UserNotification.success("Group was saved successfully");
+     }, this._errorHandler("Savinf group failed", "Unable to save group"));
+
+     OAuth2Actions.saveGroup.promise(promise);
+
+
+  },
+
+  deleteGroup(group) {
+
+    const promise = new Builder("DELETE", this._url("/oauth/group?group=" + group))
+           .authenticated()
+           .setHeader("X-Requested-By", this._url("/oauth/group"))
+           .json()
+           .build();
+
+
+     promise.then((response) => {
+            this.trigger({ group: response });
+            UserNotification.success("Group was removed successfully");
+           }, this._errorHandler("Removing group failed", "Unable to remove group"));
+
+      OAuth2Actions.deleteGroup.promise(promise);
+    }
 });
 
 export default OAuth2Store;

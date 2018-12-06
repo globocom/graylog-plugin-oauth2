@@ -1,4 +1,4 @@
-/*
+/**
  * This file is part of Graylog Plugin Oauth.
  *
  * Graylog Plugin Oauth is free software: you can redistribute it and/or modify
@@ -15,14 +15,18 @@
  * along with Foobar. If not, see <https://www.gnu.org/licenses/>
  */
 
-import Reflux from "reflux";
+package com.globo.graylog.plugins.oauth2.service;
 
-const OAuth2Actions = Reflux.createActions({
-  config: { asyncResult: true },
-  saveConfig: { asyncResult: true },
-  groups: { asyncResult: true },
-  saveGroup: { asyncResult: true },
-  deleteGroup: { asyncResult: true },
-});
+import org.graylog2.plugin.database.PersistedService;
+import org.graylog2.plugin.database.ValidationException;
 
-export default OAuth2Actions;
+import java.util.List;
+
+public interface GroupRoleService extends PersistedService {
+
+    List<GroupRoleInterface> loadAll();
+
+    String save(GroupRoleInterface groupRolesInterface) throws ValidationException;
+
+    void remove(String group);
+}

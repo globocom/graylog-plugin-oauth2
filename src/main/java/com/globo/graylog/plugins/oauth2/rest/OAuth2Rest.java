@@ -19,6 +19,7 @@ package com.globo.graylog.plugins.oauth2.rest;
 
 import com.globo.graylog.plugins.oauth2.audit.OAuth2AuditEventTypes;
 import com.globo.graylog.plugins.oauth2.permissions.OAuth2Permissions;
+import com.globo.graylog.plugins.oauth2.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,6 +27,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.graylog2.audit.jersey.AuditEvent;
 import org.graylog2.plugin.cluster.ClusterConfigService;
+import org.graylog2.plugin.database.ValidationException;
 import org.graylog2.plugin.rest.PluginRestResource;
 import org.graylog2.shared.rest.resources.RestResource;
 
@@ -33,18 +35,21 @@ import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.*;
 
-@Api(value = "Globo/oauth", description = "Manage Globo Oauth")
+@Api(value = "OAuth", description = "Manage OAuth")
 @Path("/oauth")
 @Produces(MediaType.APPLICATION_JSON)
 @RequiresAuthentication
 public class OAuth2Rest extends RestResource implements PluginRestResource {
 
     private final ClusterConfigService clusterConfigService;
+    private final GroupRoleService groupRoleServiceImpl;
 
     @Inject
-    private OAuth2Rest(ClusterConfigService clusterConfigService) {
+    private OAuth2Rest(ClusterConfigService clusterConfigService, GroupRoleServiceImpl groupRoleServiceImpl) {
         this.clusterConfigService = clusterConfigService;
+        this.groupRoleServiceImpl = groupRoleServiceImpl;
     }
 
     @ApiOperation(value = "Get Oauth configuration")
@@ -67,5 +72,50 @@ public class OAuth2Rest extends RestResource implements PluginRestResource {
         clusterConfigService.write(cleanConfig);
 
         return config;
+    }
+
+    @ApiOperation(value = "Get all groups")
+    @GET
+    @RequiresPermissions(OAuth2Permissions.CONFIG_READ)
+    @Path("/group")
+    public List<GroupRoleInterface> getGroups() {
+        List<GroupRoleInterface> groups = groupRoleServiceImpl.loadAll();
+
+        return groups;
+    }
+
+    @ApiOperation(value = "Saving group")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @POST
+    @RequiresPermissions(OAuth2Permissions.CONFIG_UPDATE)
+    @AuditEvent(type = OAuth2AuditEventTypes.CONFIG_UPDATE)
+    @Path("/group")
+    public GroupRole postGroup(@ApiParam(name = "group", required = true) @NotNull GroupRole group) {
+        final GroupRole cleanGroup = group.toBuilder().build();
+
+        Map<String, Object> fields = new HashMap<>();
+        fields.put("group", cleanGroup.group());
+        fields.put("role", cleanGroup.role());
+
+
+        GroupRoleImpl groupRole= new GroupRoleImpl(fields);
+
+        try{
+            groupRoleServiceImpl.save(groupRole);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+        }
+
+        return group;
+    }
+
+    @ApiOperation(value = "Removing group")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @DELETE
+    @RequiresPermissions(OAuth2Permissions.CONFIG_UPDATE)
+    @AuditEvent(type = OAuth2AuditEventTypes.CONFIG_UPDATE)
+    @Path("/group")
+    public void removeGroup(@QueryParam("group") @NotNull String group) {
+        groupRoleServiceImpl.remove(group);
     }
 }

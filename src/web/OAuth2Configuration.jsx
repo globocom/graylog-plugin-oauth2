@@ -20,9 +20,11 @@ import Reflux from "reflux";
 import { Row, Col, Button, Alert } from "react-bootstrap";
 import { Input } from "components/bootstrap";
 
-import { PageHeader, Spinner } from "components/common";
+import { DocumentTitle, PageHeader, Spinner } from "components/common";
 import OAuth2Actions from "OAuth2Actions";
 import OAuth2Store from "OAuth2Store";
+import OAuth2GroupMapping from "OAuth2GroupMapping";
+
 
 import StoreProvider from "injection/StoreProvider";
 const RolesStore = StoreProvider.getStore("Roles");
@@ -33,13 +35,24 @@ const OAuth2Configuration = React.createClass({
 
    mixins: [
       Reflux.connect(OAuth2Store),
-    ],
+   ],
+
+    getInitialState() {
+        return {
+          showSettings: true,
+        };
+    },
 
     componentDidMount() {
+      this.showSettings = true;
       OAuth2Actions.config();
       RolesStore.loadRoles().done((roles) => {
         this.setState({ roles: roles.map((role) => role.name) });
       });
+    },
+
+    _toggleButton() {
+        this.setState({ showSettings: !this.state.showSettings });
     },
 
    _saveSettings(ev) {
@@ -65,6 +78,7 @@ const OAuth2Configuration = React.createClass({
    },
 
   render() {
+    const toggleButtonText = this.state.showSettings ? "Group Mapping" : "OAuth2 Settings";
     let content;
     if (!this.state.config) {
           content = <Spinner />;
@@ -127,14 +141,23 @@ const OAuth2Configuration = React.createClass({
            </Row>
         );
     }
+    const activeComponent = (this.state.showSettings ? content : <OAuth2GroupMapping /> );
 
     return (
-      <div>
-        <PageHeader title="Oauth2" subpage>
-          <span>This page is the only resource you need to set up the Graylog OAuth2 integration.</span>
-        </PageHeader>
-        {content}
-      </div>
+      <DocumentTitle title="Oauth2">
+        <span>
+            <PageHeader title="Oauth2" subpage>
+                <span>
+                    This page is the only resource you need to set up the Graylog OAuth2 integration.
+                </span>
+                {null}
+                <span>
+                    <Button bsStyle="success" onClick={this._toggleButton}>{toggleButtonText}</Button>
+                </span>
+            </PageHeader>
+            {activeComponent}
+        </span>
+      </DocumentTitle>
     );
   }
 
