@@ -19,6 +19,12 @@ Restart `graylog-server` and you are done.
 
 If you are developing the plugin with graylog-server, you should follow these steps:
 
+  * git clone https://github.com/Graylog2/gralog2-server.git
+  * cd graylog2-server/graylog2-web-interface
+  * ln -s $YOURPLUGIN plugin/
+  * npm install && npm start
+
+
 * import the module into graylog-project pom.xml
 
        <module>../graylog-project-repos/graylog-plugin-oauth2</module>
@@ -33,8 +39,7 @@ If you are developing the plugin with graylog-server, you should follow these st
 
 ## Usage
 
-You need to enter the authentication page and configure your Oauth plugin with all the required fields.
-Works only with Authentication code.
+You must fill in the required OAuth configuration fields and has group mapping functionality, if you want to filter the roles by group you need to add in the group mapping screen, works only with Authentication code.
 
 ## Getting started
 
