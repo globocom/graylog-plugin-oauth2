@@ -100,6 +100,11 @@ const OAuth2Configuration = React.createClass({
                               value={this.state.config.data_server_url} help="Full application URL to get user data"
                               onChange={this._bindValue} required/>
 
+                          <Input type="text" id="redirect_url" name="redirect_url" labelClassName="col-sm-3"
+                            wrapperClassName="col-sm-9"  label="Redirect URL"
+                            value={this.state.config.redirect_url} help="Redirect url to get token authorization"
+                            onChange={this._bindValue} required/>
+
                           <Input type="text" id="client_id" name="client_id" labelClassName="col-sm-3"
                                  wrapperClassName="col-sm-9"  label="Client Id"
                                  value={this.state.config.client_id}

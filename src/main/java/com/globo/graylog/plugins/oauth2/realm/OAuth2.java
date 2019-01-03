@@ -55,7 +55,6 @@ public class OAuth2 {
         try {
             code = referer.split("code=")[1];
         } catch (ArrayIndexOutOfBoundsException e) {
-            LOG.error(e.toString());
             throw new AuthenticationException("Bad formated code token");
         } catch (NullPointerException e) {
             LOG.error(e.toString());

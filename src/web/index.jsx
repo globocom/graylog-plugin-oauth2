@@ -29,4 +29,6 @@ PluginStore.register(new PluginManifest(packageJson, {
       component: OAuth2Configuration,
     },
   ]
+
+
 }));

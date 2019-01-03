@@ -66,7 +66,6 @@ const OAuth2Store = Reflux.createStore({
 
     const promise = new Builder("PUT", this._url("/oauth"))
         .authenticated()
-        .setHeader("X-Requested-By", this._url("/oauth"))
         .json(config)
         .build()
 
@@ -93,7 +92,6 @@ const OAuth2Store = Reflux.createStore({
 
      const promise = new Builder("POST", this._url("/oauth/group"))
              .authenticated()
-             .setHeader("X-Requested-By", this._url("/oauth/group"))
              .json(group)
              .build()
 
@@ -111,8 +109,6 @@ const OAuth2Store = Reflux.createStore({
 
     const promise = new Builder("DELETE", this._url("/oauth/group?group=" + group))
            .authenticated()
-           .setHeader("X-Requested-By", this._url("/oauth/group"))
-           .json()
            .build();
 
 
