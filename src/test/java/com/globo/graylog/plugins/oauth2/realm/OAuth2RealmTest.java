@@ -75,7 +75,7 @@ public class OAuth2RealmTest {
 
         AcessToken dummyToken = new AcessToken();
         when(oAuth2Mock.getAuthorization(
-                "MockedCode", "clientId", "clientSecret", "url server", "http://localhost:8080/")
+                "MockedCode", "clientId", "clientSecret", "url server", "url redirect")
         ).thenReturn(dummyToken);
 
         UserOAuth dummyUserPlugin = new UserOAuth();
@@ -107,6 +107,7 @@ public class OAuth2RealmTest {
                 .clientSecret("clientSecret")
                 .dataServerUrl("url redirect")
                 .tokenServerUrl("url server")
+                .redirectUrl("url redirect")
                 .build();
     }
 

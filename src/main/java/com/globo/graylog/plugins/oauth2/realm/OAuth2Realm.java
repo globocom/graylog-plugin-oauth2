@@ -84,7 +84,7 @@ public class OAuth2Realm extends AuthenticatingRealm {
 
     private UserOAuth getOAuthUser(String referer, OAuth2Config config) {
         String code = oAuth2.getCodeFromReferer(referer);
-        AcessToken acessToken = oAuth2.getAuthorization(code, config.clientId(), config.clientSecret(), config.tokenServerUrl(), "http://localhost:8080/");
+        AcessToken acessToken = oAuth2.getAuthorization(code, config.clientId(), config.clientSecret(), config.tokenServerUrl(), config.redirectUrl());
         return oAuth2.getUser(config.dataServerUrl(), acessToken);
     }
 

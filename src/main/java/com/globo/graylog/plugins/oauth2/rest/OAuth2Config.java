@@ -64,6 +64,10 @@ public abstract class OAuth2Config {
     @Nullable
     public abstract String dataServerUrl();
 
+    @JsonProperty("redirect_url")
+    @Nullable
+    public abstract String redirectUrl();
+
     @JsonProperty("auto_create_user")
     public abstract boolean autoCreateUser();
 
@@ -86,6 +90,9 @@ public abstract class OAuth2Config {
 
         @JsonProperty("data_server_url")
         public abstract Builder dataServerUrl(@Nullable String dataServerUrl);
+
+        @JsonProperty("redirect_url")
+        public abstract Builder redirectUrl(@Nullable String redirectUrl);
 
         @JsonProperty("auto_create_user")
         public abstract Builder autoCreateUser(boolean autoCreateUser);
