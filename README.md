@@ -2,9 +2,20 @@
 
 [![Build Status](https://travis-ci.org/globocom/graylog-plugin-oauth2.svg?branch=master)](https://travis-ci.org/globocom/graylog-plugin-oauth2) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb9d46aefdbb40a7a026b9156ab8db21)](https://www.codacy.com/app/igorcavalcante/graylog-plugin-oauth2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=globocom/graylog-plugin-oauth2&amp;utm_campaign=Badge_Grade)
 
-This plugins adds Oauth2 capabilities to Graylog. It supports automatic login and user account creation based on Oauth 2.0.
+This plugins adds Oauth2 capabilities to Graylog. It supports automatic login and user account creation based on Oauth 2.0. 
+
+Unfortunately works only with authorization code and need configure the nginx to redirect.
 
 **Required Graylog version:** 2.5 and later
+
+Version Compatibility
+---------------------
+
+    | Plugin Version | Graylog Version |
+    | -------------- | --------------- |
+    | 2.5.x          | 2.5.x           |
+    | 2.4.x          | 2.4.x           |
+    | 2.3.x          | 2.3.x           |
 
 ## Installation
 
@@ -39,7 +50,48 @@ If you are developing the plugin with graylog-server, you should follow these st
 
 ## Usage
 
-You must fill in the required OAuth configuration fields and has group mapping functionality, if you want to filter the roles by group you need to add in the group mapping screen, works only with Authentication code.
+You must fill in the required OAuth configuration fields and has group mapping functionality, if you want to filter the roles by group you need to add in the group mapping screen.
+
+* configure the nginx
+
+        location / {
+         if ($check_authgraylog = nook_auth) {
+           return 302 https://url/authorize?response_type=code&redirect_uri=https://$server_name$request_uri&client_id=define;
+         }
+         proxy_set_header Host $http_host;
+         proxy_set_header X-Forwarded-Host $host;
+         proxy_set_header X-Forwarded-Server $host;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_set_header X-Graylog-Server-URL https://$server_name/api;
+         proxy_connect_timeout 60;
+         proxy_send_timeout    60;
+         proxy_read_timeout    60;
+         send_timeout          60;
+         proxy_pass       http://graylog-server;
+        }
+        
+        location ~ ^/(api|assets) {
+         proxy_set_header Host $http_host;
+         proxy_set_header X-Forwarded-Host $host;
+         proxy_set_header X-Forwarded-Server $host;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_set_header X-Graylog-Server-URL https://$server_name/api;
+         proxy_connect_timeout 60;
+         proxy_send_timeout    60;
+         proxy_read_timeout    60;
+         send_timeout          60;
+         proxy_pass       http://graylog-server;
+        }
+        
+        location = / {
+         return 302 https:/url/authorize?response_type=code&redirect_uri=https://$server_name/streams&client_id=define;
+        }
+        
+        upstream graylog-server {
+           server      0.0.0.0:9000;
+           keepalive   90;
+        }
+
 
 ## Getting started
 
