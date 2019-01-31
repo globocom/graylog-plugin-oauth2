@@ -48,7 +48,9 @@ If you are developing the plugin with graylog-server, you should follow these st
                <version>0.0.3-SNAPSHOT</version>
            </dependency>
 
-## Usage
+## How to Usage
+
+https://github.com/globocom/graylog-plugin-oauth2/wiki/How-use-Google-OAuth-with-plugin.
 
 You must fill in the required OAuth configuration fields and has group mapping functionality, if you want to filter the roles by group you need to add in the group mapping screen.
 
@@ -102,6 +104,7 @@ This project is using Maven 3 and requires Java 8 or higher.
   * Optional: Run `mvn jdeb:jdeb` and `mvn rpm:rpm` to create a DEB and RPM package respectively.
   * Copy generated JAR file in target directory to your Graylog plugin directory.
   * Restart the Graylog.
+  
 
 ## Join Us
 
