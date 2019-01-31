@@ -66,7 +66,7 @@ const OAuth2Store = Reflux.createStore({
 
     const promise = new Builder("PUT", this._url("/oauth"))
         .authenticated()
-        .setHeader("X-Requested-By", this._url("/oauth/group"))
+        .setHeader("X-Requested-By", this._url("/oauth"))
         .json(config)
         .build()
 
