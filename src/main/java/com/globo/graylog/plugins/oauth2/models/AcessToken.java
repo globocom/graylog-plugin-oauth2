@@ -18,7 +18,9 @@
 package com.globo.graylog.plugins.oauth2.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AcessToken {
 
     @JsonProperty("access_token")

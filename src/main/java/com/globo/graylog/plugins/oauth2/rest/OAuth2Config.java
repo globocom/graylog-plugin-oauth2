@@ -43,6 +43,7 @@ public abstract class OAuth2Config {
                 .tokenServerUrl("")
                 .dataServerUrl("")
                 .autoCreateUser(false)
+                .useAuthorization(false)
                 .defaultGroup("Reader")
                 .build();
     }
@@ -71,6 +72,9 @@ public abstract class OAuth2Config {
     @JsonProperty("auto_create_user")
     public abstract boolean autoCreateUser();
 
+    @JsonProperty("use_authorization")
+    public abstract boolean useAuthorization();
+
     @JsonProperty("default_group")
     @Nullable
     public abstract String defaultGroup();
@@ -96,6 +100,9 @@ public abstract class OAuth2Config {
 
         @JsonProperty("auto_create_user")
         public abstract Builder autoCreateUser(boolean autoCreateUser);
+
+        @JsonProperty("use_authorization")
+        public abstract Builder useAuthorization(boolean useAuthorization);
 
         @JsonProperty("default_group")
         public abstract Builder defaultGroup(@Nullable String defaultGroup);

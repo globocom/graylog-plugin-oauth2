@@ -49,7 +49,7 @@ public class OAuth2RealmTest {
 
         AcessToken dummyToken = new AcessToken();
         when(oAuth2Mock.getAuthorization(
-        "MockedCode", "clientId", "clientSecret", "url server", "url redirect")
+        "MockedCode", "clientId", "clientSecret", "url server", "url redirect", true)
         ).thenReturn(dummyToken);
 
         when(oAuth2Mock.getUser("url server", dummyToken)).thenReturn(null);
@@ -75,7 +75,7 @@ public class OAuth2RealmTest {
 
         AcessToken dummyToken = new AcessToken();
         when(oAuth2Mock.getAuthorization(
-                "MockedCode", "clientId", "clientSecret", "url server", "url redirect")
+                "MockedCode", "clientId", "clientSecret", "url server", "url redirect", true)
         ).thenReturn(dummyToken);
 
         UserOAuth dummyUserPlugin = new UserOAuth();
@@ -103,6 +103,7 @@ public class OAuth2RealmTest {
     private OAuth2Config getOAuth2Config() {
         return OAuth2Config.builder()
                 .autoCreateUser(true)
+                .useAuthorization(true)
                 .clientId("clientId")
                 .clientSecret("clientSecret")
                 .dataServerUrl("url redirect")

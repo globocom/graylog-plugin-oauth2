@@ -55,10 +55,8 @@ public class OAuth2 {
         try {
             code = referer.split("code=")[1];
         } catch (ArrayIndexOutOfBoundsException e) {
-            LOG.error(e.toString());
             throw new AuthenticationException("Bad formated code token");
         } catch (NullPointerException e) {
-            LOG.error(e.toString());
             throw new AuthenticationException("The code token should not be null");
         }
 
@@ -66,14 +64,20 @@ public class OAuth2 {
     }
 
     public AcessToken getAuthorization(
-        String code, String clientId, String clientSecret, String url, String redirectUrl
+        String code, String clientId, String clientSecret, String url, String redirectUrl, Boolean useAuthorization
     ) {
         HttpPost httpPost = new HttpPost(url);
         HttpResponse response = null;
 
-        httpPost.setHeader("Authorization", getAuthorizationString(clientId, clientSecret));
-
         List<NameValuePair> params = new ArrayList<>();
+
+
+        if (useAuthorization) {
+            httpPost.setHeader("Authorization", getAuthorizationString(clientId, clientSecret));
+        } else {
+            params.add(new BasicNameValuePair("client_id", clientId));
+            params.add(new BasicNameValuePair("client_secret", clientSecret));
+        }
 
         params.add(new BasicNameValuePair("redirect_uri", redirectUrl));
         params.add(new BasicNameValuePair("grant_type", "authorization_code"));
@@ -87,7 +91,6 @@ public class OAuth2 {
             String content = buffer.lines().collect(Collectors.joining("\n"));
             return mapper.readValue(content, AcessToken.class);
         } catch (IOException e) {
-            LOG.error(e.toString());
             throw  new AuthenticationException("Something went wrong when fetching the OAuth url API: " + url);
         } finally {
             HttpClientUtils.closeQuietly(response);
@@ -107,7 +110,6 @@ public class OAuth2 {
             content = buffer.lines().collect(Collectors.joining("\n"));
             return mapper.readValue(content, UserOAuth.class);
         } catch (JsonParseException e) {
-            LOG.error(e.toString());
             throw  new AuthenticationException("Wrong json format: " + content);
         } catch (IOException e) {
             LOG.error(e.toString());

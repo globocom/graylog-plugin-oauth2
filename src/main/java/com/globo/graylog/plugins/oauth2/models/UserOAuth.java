@@ -17,10 +17,13 @@
 
 package com.globo.graylog.plugins.oauth2.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashSet;
 import java.util.Set;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserOAuth {
 
     @JsonProperty("name")
@@ -36,13 +39,13 @@ public class UserOAuth {
     private String email;
 
     @JsonProperty("picture")
-    private String picture;
+    private String picture ;
 
     @JsonProperty("role_ids")
-    private Set<Object> roleIds;
+    private Set<String> roleIds = new HashSet<>();
 
     @JsonProperty("groups")
-    private Set<String> groups;
+    private Set<String> groups = new HashSet<>();
 
     public String getPicture() {
         return picture;
@@ -52,11 +55,11 @@ public class UserOAuth {
         this.picture = picture;
     }
 
-    public Set<Object> getRoleIds() {
+    public Set<String> getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(Set<Object> roleIds) {
+    public void setRoleIds(Set<String> roleIds) {
         this.roleIds = roleIds;
     }
 
