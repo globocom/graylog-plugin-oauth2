@@ -75,7 +75,8 @@ public class OAuth2Test {
         AcessToken authorization = oAuth2.getAuthorization(
                 "0b84f019d22072199d26628bad7f51f7", "55aabbeeff",
                 "secretclient", "http://server.url/",
-                "http://redirect.url:8888/"
+                "http://redirect.url:8888/",
+                true
         );
 
         assertEquals("a_token_test", authorization.getAcessToken());
@@ -91,6 +92,7 @@ public class OAuth2Test {
                 "0b84f019d22072199d26628bad7f51f7", "55aabbeeff",
                 "secretclient", "http://server.url/",
                 "http://redirect.url:8888/"
+                ,true
         );
     }
 

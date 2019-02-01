@@ -115,6 +115,14 @@ const OAuth2Configuration = React.createClass({
                                   value={this.state.config.client_secret}
                                   onChange={this._bindValue} required/>
 
+                          <Input type="checkbox" label="Authorization in header"
+                                                           help="If you want to use Authorization in header."
+                                                           wrapperClassName="col-sm-offset-3 col-sm-9"
+                                                           checked={this.state.config.use_authorization}
+                                                           name="use_authorization"
+                                                           onChange={this._bindChecked}/>
+
+
                           <Input type="checkbox" label="Automatically create users"
                                  help="If checked, new users are automatically create in graylog if OAuth2 authentication ocurred successfuly. If unchecked, an administrator need to create user in graylog first."
                                  wrapperClassName="col-sm-offset-3 col-sm-9"

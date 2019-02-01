@@ -70,8 +70,8 @@ public class OAuth2Realm extends AuthenticatingRealm {
             user = userService.load(oAuthUser.getEmail());
 
             if (user == null && config.autoCreateUser()) {
-                    user = userService.create();
-                    user = userHelper.saveUserIfNecessary(user, config, oAuthUser);
+                user = userService.create();
+                user = userHelper.saveUserIfNecessary(user, config, oAuthUser);
             }
 
             ShiroSecurityContext.requestSessionCreation(true);
@@ -84,7 +84,7 @@ public class OAuth2Realm extends AuthenticatingRealm {
 
     private UserOAuth getOAuthUser(String referer, OAuth2Config config) {
         String code = oAuth2.getCodeFromReferer(referer);
-        AcessToken acessToken = oAuth2.getAuthorization(code, config.clientId(), config.clientSecret(), config.tokenServerUrl(), config.redirectUrl());
+        AcessToken acessToken = oAuth2.getAuthorization(code, config.clientId(), config.clientSecret(), config.tokenServerUrl(), config.redirectUrl(), config.useAuthorization());
         return oAuth2.getUser(config.dataServerUrl(), acessToken);
     }
 
