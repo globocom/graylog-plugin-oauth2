@@ -34,10 +34,9 @@ public class UserHelperTest {
 
     private UserHelper userHelper;
 
-    @Test(expected = AuthenticationException.class)
-    public void whenUserIsNullAndAutoCreateIsNotEnabled() {
+    @Test(expected = NullPointerException.class)
+    public void whenUserIsNull() {
         OAuth2Config configMock = mock(OAuth2Config.class);
-        when(configMock.autoCreateUser()).thenReturn(false);
         userHelper = new UserHelper(null, null, null);
         userHelper.saveUserIfNecessary(null, configMock, mock(UserOAuth.class));
     }
@@ -56,7 +55,7 @@ public class UserHelperTest {
         when(configMock.autoCreateUser()).thenReturn(true);
 
         userHelper = new UserHelper(userServiceMock, roleServiceMock, groupRoleServiceMock);
-        userHelper.saveUserIfNecessary(null, configMock, mock(UserOAuth.class));
+        userHelper.saveUserIfNecessary(dummyUser, configMock, mock(UserOAuth.class));
     }
 
     @Test
@@ -72,9 +71,11 @@ public class UserHelperTest {
         OAuth2Config configMock = mock(OAuth2Config.class);
         when(configMock.autoCreateUser()).thenReturn(true);
 
-        userHelper = new UserHelper(userServiceMock, roleServiceMock, groupRoleServiceMock);
-        User savedUser = userHelper.saveUserIfNecessary(null, configMock, mock(UserOAuth.class));
+        User user = mock(User.class);
 
-        assertSame(dummyUser, savedUser);
+        userHelper = new UserHelper(userServiceMock, roleServiceMock, groupRoleServiceMock);
+        User savedUser = userHelper.saveUserIfNecessary(user, configMock, mock(UserOAuth.class));
+
+        assertSame(user, savedUser);
     }
 }
