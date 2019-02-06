@@ -102,17 +102,4 @@ public class UserOAuth {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    @Override
-    public String toString() {
-        return "UserOAuth{" +
-                "name='" + name + '\'' +
-                ", surName='" + surName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", picture='" + picture + '\'' +
-                ", roleIds=" + roleIds +
-                ", groups=" + groups +
-                '}';
-    }
 }
