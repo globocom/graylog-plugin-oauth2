@@ -55,55 +55,40 @@ public class UserHelper {
     public User saveUserIfNecessary(User user, OAuth2Config config, UserOAuth oAuthUser) throws AuthenticationException {
 
         Set<String> roles = new HashSet<>();
-        User userToSave = user;
 
-        if (user == null) {
-            try {
-                userToSave = userService.create();
-            } catch (NullPointerException e){
-                throw new AuthenticationException("Unable to create an user object.");
-            }
-        }
-
-        userToSave.setName(oAuthUser.getEmail());
-        userToSave.setExternal(true);
-        userToSave.setFullName(oAuthUser.getName() + " " + oAuthUser.getSurName());
-        userToSave.setEmail(oAuthUser.getEmail());
-        userToSave.setPassword("discovery");
-        userToSave.setPermissions(Collections.emptyList());
+        user.setName(oAuthUser.getEmail());
+        user.setExternal(true);
+        user.setFullName(oAuthUser.getName() + " " + oAuthUser.getSurName());
+        user.setEmail(oAuthUser.getEmail());
+        user.setPassword("discovery");
+        user.setPermissions(Collections.emptyList());
 
         String defaultGroup = config.defaultGroup();
         List<GroupRoleInterface> groups = groupRoleService.loadAll();
 
         if (groups.isEmpty() || oAuthUser.getGroups().isEmpty()){
-            userToSave.setRoleIds(Collections.singleton(getRole(defaultGroup)));
+            user.setRoleIds(Collections.singleton(getRole(defaultGroup)));
         } else {
-            for (GroupRoleInterface group : groups) {
-                for(String groupUser: oAuthUser.getGroups()) {
-                    if (group.getGroup().equals(groupUser)) {
-                        getRolesIds(roles, group);
-                    }
-                }
-            }
+            checkGroup(roles, groups, oAuthUser);
         }
 
         if (roles.isEmpty()) {
-            userToSave.setRoleIds(Collections.singleton(getRole(defaultGroup)));
+            user.setRoleIds(Collections.singleton(getRole(defaultGroup)));
         } else {
-            userToSave.setRoleIds(roles);
+            user.setRoleIds(roles);
         }
 
         try {
-            userService.save(userToSave);
-            return userToSave;
+            userService.save(user);
+            return user;
         } catch (ValidationException e) {
-            LOG.error("Unable to save user {}", userToSave, e);
+            LOG.error("Unable to save user {}", user, e);
             throw new AuthenticationException("Unable to save the user on the local database");
         }
 
     }
 
-    public String getRole(String group) {
+    private String getRole(String group) {
         String roleToAdd = group != null ? group : "Reader";
         try{
             Role role = roleService.loadAllLowercaseNameMap().get(roleToAdd.toLowerCase());
@@ -118,8 +103,7 @@ public class UserHelper {
         return roleToAdd;
     }
 
-    public void getRolesIds(Set<String> roles, GroupRoleInterface group) {
-
+    private void getRolesIds(Set<String> roles, GroupRoleInterface group) {
         try{
             Role role = roleService.loadAllLowercaseNameMap().get(group.getRole().toLowerCase());
             if (role != null) {
@@ -130,4 +114,26 @@ public class UserHelper {
         }
     }
 
+    private void checkGroup(Set<String> roles, List<GroupRoleInterface> groups, UserOAuth oAuthUser) {
+        for (GroupRoleInterface group : groups) {
+            for(String groupUser: oAuthUser.getGroups()) {
+                if (group.getGroup().equals(groupUser)) {
+                    getRolesIds(roles, group);
+                }
+            }
+        }
+    }
+
+    public void syncRoles(User user, UserOAuth oAuthUser) {
+            Set<String> roles = new HashSet<>();
+            checkGroup(roles, groupRoleService.loadAll(), oAuthUser);
+            if (!user.getRoleIds().equals(roles)) {
+                user.setRoleIds(roles);
+                try {
+                    userService.save(user);
+                } catch (ValidationException e) {
+                    throw new AuthenticationException("Unable to update the user on the local database");
+                }
+            }
+        }
 }

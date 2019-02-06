@@ -146,7 +146,7 @@ const OAuth2GroupMapping = React.createClass({
                                </div>
                         </fieldset>
                 </Row>
-            )
+            );
         }
 
         return (
