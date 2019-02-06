@@ -64,7 +64,7 @@ public class OAuth2RealmTest {
     }
 
     @Test
-    public void doGetAuthenticationInfo() {
+    public void doGetAuthenticationInfoSyncRole() {
         OAuth2Config oAuth2Config = getOAuth2Config();
         ClusterConfigService configServiceMock = mock(ClusterConfigService.class);
         when(configServiceMock.getOrDefault(any(), any())).thenReturn(oAuth2Config);
@@ -86,6 +86,43 @@ public class OAuth2RealmTest {
         when(dummyGraylogUser.getName()).thenReturn("Graylog user name");
         UserService userServiceMock = mock(UserService.class);
         when(userServiceMock.load("user@email")).thenReturn(dummyGraylogUser);
+
+        UserHelper userHelperMock = mock(UserHelper.class);
+        when(userHelperMock.saveUserIfNecessary(dummyGraylogUser, oAuth2Config, dummyUserPlugin)).thenReturn(dummyGraylogUser);
+
+        realm = new OAuth2Realm(userServiceMock, configServiceMock, oAuth2Mock, userHelperMock);
+
+        MultivaluedHashMap<String, String> map = new MultivaluedHashMap<>();
+        map.put("referer", Collections.singletonList(refererValue));
+        HttpHeadersToken token = new HttpHeadersToken(map, "myhost", "remoteAddr");
+
+        AuthenticationInfo authenticationInfo = realm.doGetAuthenticationInfo(token);
+        assertEquals("Graylog user name", authenticationInfo.getPrincipals().getPrimaryPrincipal());
+    }
+
+    @Test
+    public void doGetAuthenticationInfoCreateUser() {
+        OAuth2Config oAuth2Config = getOAuth2Config();
+        ClusterConfigService configServiceMock = mock(ClusterConfigService.class);
+        when(configServiceMock.getOrDefault(any(), any())).thenReturn(oAuth2Config);
+
+        OAuth2 oAuth2Mock = mock(OAuth2.class);
+        String refererValue = "single referer value";
+        when(oAuth2Mock.getCodeFromReferer(refererValue)).thenReturn("MockedCode");
+
+        AcessToken dummyToken = new AcessToken();
+        when(oAuth2Mock.getAuthorization(
+                "MockedCode", "clientId", "clientSecret", "url server", "url redirect", true)
+        ).thenReturn(dummyToken);
+
+        UserOAuth dummyUserPlugin = new UserOAuth();
+        dummyUserPlugin.setEmail("user@email");
+        when(oAuth2Mock.getUser("url redirect", dummyToken)).thenReturn(dummyUserPlugin);
+
+        User dummyGraylogUser = mock(User.class);
+        when(dummyGraylogUser.getName()).thenReturn("Graylog user name");
+        UserService userServiceMock = mock(UserService.class);
+        when(userServiceMock.create()).thenReturn(dummyGraylogUser);
 
         UserHelper userHelperMock = mock(UserHelper.class);
         when(userHelperMock.saveUserIfNecessary(dummyGraylogUser, oAuth2Config, dummyUserPlugin)).thenReturn(dummyGraylogUser);

@@ -62,7 +62,7 @@ public class OAuth2Test {
     }
 
     @Test
-    public void getAuthorization() throws Exception {
+    public void getAuthorizationWithUseAuthorization() throws Exception {
         BasicHttpResponse response = new BasicHttpResponse(null, 200, "OK");
         BasicHttpEntity entity = new BasicHttpEntity();
         entity.setContent(new StringBufferInputStream(getResponseTokenString()));
@@ -77,6 +77,30 @@ public class OAuth2Test {
                 "secretclient", "http://server.url/",
                 "http://redirect.url:8888/",
                 true
+        );
+
+        assertEquals("a_token_test", authorization.getAcessToken());
+        assertEquals("code", authorization.getTokenType());
+        assertEquals(1122334455, authorization.getExpiresIn());
+        assertEquals("r_token_test", authorization.getRefreshToken());
+    }
+
+    @Test
+    public void getAuthorizationWithNoUseAuthorization() throws Exception {
+        BasicHttpResponse response = new BasicHttpResponse(null, 200, "OK");
+        BasicHttpEntity entity = new BasicHttpEntity();
+        entity.setContent(new StringBufferInputStream(getResponseTokenString()));
+        response.setEntity(entity);
+
+        HttpClient httpClientMock = mock(HttpClient.class);
+        when(httpClientMock.execute(any(HttpPost.class))).thenReturn(response);
+        oAuth2.setHttpclient(httpClientMock);
+
+        AcessToken authorization = oAuth2.getAuthorization(
+                "0b84f019d22072199d26628bad7f51f7", "55aabbeeff",
+                "secretclient", "http://server.url/",
+                "http://redirect.url:8888/",
+                false
         );
 
         assertEquals("a_token_test", authorization.getAcessToken());
@@ -143,7 +167,11 @@ public class OAuth2Test {
 
         assertEquals("gcom.globo.com", user.getUserName());
         assertEquals(3, user.getGroups().size());
+        assertEquals(3, user.getRoleIds().size());
         assertTrue(user.getGroups().contains("admin"));
+        assertTrue(user.getName().contains("Gcom"));
+        assertEquals("Gcom", user.getSurName());
+        assertTrue(user.getPicture().contains("null"));
     }
 
     private AcessToken getAccessToken() {
@@ -155,12 +183,13 @@ public class OAuth2Test {
         return accessToken;
     }
 
+
     private String getResponseTokenString() {
         return "{\"access_token\": \"a_token_test\", \"token_type\": \"code\", \"expires_in\": 1122334455, \"refresh_token\": \"r_token_test\"}";
     }
 
     private String getResponseUserString() {
-        return "{\"name\": \"Gcom\", \"username\": \"gcom.globo.com\", \"email\": \"gcom.globo.com\", \"groups\": [\"admin\", \"user\", \"audit\"]}";
+        return "{\"name\": \"Gcom\",\"picture\": \"null\", \"surname\": \"Gcom\", \"username\": \"gcom.globo.com\", \"email\": \"gcom.globo.com\", \"groups\": [\"admin\", \"user\", \"audit\"], \"role_ids\": [\"admin\", \"user\", \"audit\"]}";
     }
 
     private String getBadFormatedResponseUserString() {
