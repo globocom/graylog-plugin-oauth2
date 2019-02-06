@@ -117,9 +117,7 @@ public class UserHelperTest {
 
         userHelper = new UserHelper(userServiceMock, roleServiceMock, groupRoleServiceMock);
         userHelper.syncRoles(user, userOAuth);
-
         User savedUser = userHelper.saveUserIfNecessary(user, configMock,userOAuth);
-
         assertSame(user, savedUser);
     }
 }
