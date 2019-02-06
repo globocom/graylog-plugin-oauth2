@@ -67,13 +67,4 @@ public class AcessToken {
         this.refreshToken = refreshToken;
     }
 
-    @Override
-    public String toString() {
-        return "AcessToken{" +
-                "acessToken='" + acessToken + '\'' +
-                ", tokenType='" + tokenType + '\'' +
-                ", expiresIn=" + expiresIn +
-                ", refreshToken='" + refreshToken + '\'' +
-                '}';
-    }
 }
