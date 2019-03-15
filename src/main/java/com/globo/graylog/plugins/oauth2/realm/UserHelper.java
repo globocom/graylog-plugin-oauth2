@@ -75,6 +75,7 @@ public class UserHelper {
         if (roles.isEmpty()) {
             user.setRoleIds(Collections.singleton(getRole(defaultGroup)));
         } else {
+            roles.add(roleService.getReaderRoleObjectId());
             user.setRoleIds(roles);
         }
 
@@ -128,6 +129,7 @@ public class UserHelper {
             Set<String> roles = new HashSet<>();
             checkGroup(roles, groupRoleService.loadAll(), oAuthUser);
             if (!user.getRoleIds().equals(roles)) {
+                roles.add(roleService.getReaderRoleObjectId());
                 user.setRoleIds(roles);
                 try {
                     userService.save(user);
