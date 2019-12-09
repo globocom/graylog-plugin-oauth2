@@ -16,6 +16,7 @@
  */
 
 import React from "react";
+import createReactClass from 'create-react-class';
 import Reflux from "reflux";
 import { Row, Col, Button, Alert } from "react-bootstrap";
 import { Input } from "components/bootstrap";
@@ -30,8 +31,8 @@ const RolesStore = StoreProvider.getStore("Roles");
 
 import ObjectUtils from "util/ObjectUtils";
 
-const OAuth2GroupMapping = React.createClass({
-
+const OAuth2GroupMapping = createReactClass({
+    displayName:'OAuth2GroupMapping',
      mixins: [
            Reflux.connect(OAuth2Store),
     ],

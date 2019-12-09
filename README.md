@@ -1,4 +1,3 @@
-# this project is not maintained anymore
 # OAuth2 Plugin for Graylog
 
 [![Build Status](https://travis-ci.org/globocom/graylog-plugin-oauth2.svg?branch=master)](https://travis-ci.org/globocom/graylog-plugin-oauth2) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb9d46aefdbb40a7a026b9156ab8db21)](https://www.codacy.com/app/igorcavalcante/graylog-plugin-oauth2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=globocom/graylog-plugin-oauth2&amp;utm_campaign=Badge_Grade)
@@ -13,6 +12,7 @@ This plugins adds Oauth2 capabilities to Graylog. It supports automatic login an
 
     | Plugin Version | Graylog Version |
     | -------------- | --------------- |
+    | 3.1.x          | 3.1.x           |
     | 2.5.x          | 2.5.x           |
     | 2.4.x          | 2.4.x           |
     | 2.3.x          | 2.3.x           |

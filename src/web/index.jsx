@@ -15,8 +15,8 @@
  * along with Foobar. If not, see <https://www.gnu.org/licenses/>
  */
 
-import packageJson from "../../package.json";
-import {PluginManifest, PluginStore} from "graylog-web-plugin/plugin";
+import packageJson from '../../package.json';
+import { PluginManifest, PluginStore } from 'graylog-web-plugin/plugin';
 import OAuth2Configuration from "OAuth2Configuration";
 
 PluginStore.register(new PluginManifest(packageJson, {
