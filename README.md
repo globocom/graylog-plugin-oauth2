@@ -52,8 +52,6 @@ If you are developing the plugin with graylog-server, you should follow these st
 
 ## How to Usage
 
-[Google OAuth usage](https://github.com/globocom/graylog-plugin-oauth2/wiki/How-use-Google-OAuth-with-plugin).
-
 You must fill in the required OAuth configuration fields and has group mapping functionality, if you want to filter the roles by group you need to add in the group mapping screen.
 
 * configure the nginx
