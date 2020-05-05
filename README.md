@@ -1,4 +1,6 @@
 # OAuth2 Plugin for Graylog
+# This project is deprecated and is not maintained anymore
+
 
 [![Build Status](https://travis-ci.org/globocom/graylog-plugin-oauth2.svg?branch=master)](https://travis-ci.org/globocom/graylog-plugin-oauth2) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb9d46aefdbb40a7a026b9156ab8db21)](https://www.codacy.com/app/igorcavalcante/graylog-plugin-oauth2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=globocom/graylog-plugin-oauth2&amp;utm_campaign=Badge_Grade)
 
